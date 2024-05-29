@@ -1,3 +1,3 @@
 # oscp-cpts-notes
 
-Notes for OSCP & HTB CPTS
+Notes for OSCP &  CPTS
