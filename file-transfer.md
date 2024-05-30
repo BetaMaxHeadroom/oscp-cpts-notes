@@ -2,6 +2,12 @@
 
 ## Windows File Transfer Methods
 
+<details>
+
+<summary>Windows File Transfer Methods</summary>
+
+
+
 ## **PowerShell Base64 Encode & Decode**
 
 * use `md5sum filename` to get the md5 hash of file.
@@ -12,17 +18,6 @@
 ## **PowerShell Web Downloads** ⭐
 
 System.Net.WebClient class in powershell can be used to download a file over HTTP, HTTP and FTP.
-
-| Method                                                                                                                                                                                                 | Description                                                                                                                                                                                   |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.openread?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.openread?view=net-6.0)                       | Returns the data from a resource as a [https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-6.0). |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.openreadasync?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.openreadasync?view=net-6.0)             | Returns the data from a resource without blocking the calling thread.                                                                                                                         |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloaddata?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloaddata?view=net-6.0)               | Downloads data from a resource and returns a Byte array.                                                                                                                                      |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloaddataasync?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloaddataasync?view=net-6.0)     | Downloads data from a resource and returns a Byte array without blocking the calling thread.                                                                                                  |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfile?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfile?view=net-6.0)               | Downloads data from a resource to a local file.                                                                                                                                               |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfileasync?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfileasync?view=net-6.0)     | Downloads data from a resource to a local file without blocking the calling thread.                                                                                                           |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-6.0)           | Downloads a String from a resource and returns a String.                                                                                                                                      |
-| [https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstringasync?view=net-6.0](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstringasync?view=net-6.0) | Downloads a String from a resource without blocking the calling thread.                                                                                                                       |
 
 #### **PowerShell DownloadFile Method**
 
@@ -126,3 +121,8 @@ ftp> bye
 C:\\htb>more file.txt
 This is a test file
 ```
+
+</details>
+
+
+
