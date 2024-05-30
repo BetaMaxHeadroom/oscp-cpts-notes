@@ -1,9 +1,6 @@
----
-description: >-
-  ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/bed36b1f-6a89-4b97-8ce1-d98b6498d046/a65f6048-09db-4388-8d5f-62c167765062/Untitled.png)
----
-
 # Password Attacks
+
+<figure><img src=".gitbook/assets/Untitled (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## **Network Services**
 
@@ -24,3 +21,4 @@ description: >-
   * `hydra -L user.list -P password.list ssh://10.129.42.197`
   * `hydra -L user.list -P password.list rdp://10.129.42.197`
   * `hydra -L user.list -P password.list smb://10.129.42.197`
+
