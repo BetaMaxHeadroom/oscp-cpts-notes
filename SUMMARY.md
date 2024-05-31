@@ -2,8 +2,9 @@
 
 * [oscp-cpts-notes](README.md)
 * [Penetration Testing Process](penetration-testing-process.md)
+* [Getting Started](getting-started.md)
+* [Network Enum with Nmap](network-enum-with-nmap.md)
 * [🐚 Shells & Payloads](shells-and-payloads.md)
 * [Metasploit Framework](metasploit-framework.md)
 * [Password Attacks](password-attacks.md)
 * [File Transfer](file-transfer.md)
-* [Getting Started](getting-started.md)
