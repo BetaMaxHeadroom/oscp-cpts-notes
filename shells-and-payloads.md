@@ -2,7 +2,7 @@
 description: "A\_`shell`\_is a program that provides a computer user with an interface to input instructions into the system and view text output (Bash, Zsh, cmd, and PowerShell, for example)."
 ---
 
-# 🐚 Shells & Payloads
+# Shells & Payloads
 
 | Shell Type    | Description                                                                                                                                                                                                                                     |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
