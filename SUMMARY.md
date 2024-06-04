@@ -8,3 +8,4 @@
 * [Shells & Payloads](shells-and-payloads.md)
 * [Metasploit Framework](metasploit-framework.md)
 * [Password Attacks](password-attacks.md)
+* [Attacking Common Services](attacking-common-services.md)
