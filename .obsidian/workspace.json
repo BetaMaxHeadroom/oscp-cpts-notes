@@ -1,0 +1,176 @@
+{
+  "main": {
+    "id": "283032c32a11c6e8",
+    "type": "split",
+    "children": [
+      {
+        "id": "fcfd4052508897bd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1371a45bfd8144a5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f8d7e3c836a0307c",
+    "type": "split",
+    "children": [
+      {
+        "id": "9fd9603fd67dea68",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "efef18d6d003dd01",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "9da974db47e82fcf",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "388bcac8c1c9ffd2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 359.5
+  },
+  "right": {
+    "id": "3657e4e73b625eb9",
+    "type": "split",
+    "children": [
+      {
+        "id": "40729bf194c74486",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0546d994eb3cded1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c78ce73c66574f37",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "67290dea33e1b232",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "4d70e9a88b9e1927",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "efef18d6d003dd01",
+  "lastOpenFiles": [
+    ".git/index.lock",
+    ".gitbook/assets/analyzingTheTraffic.gif",
+    ".obsidian/workspace.json",
+    ".obsidian/appearance.json",
+    ".obsidian/app.json",
+    ".obsidian",
+    ".gitbook/assets/Untitled 5.png",
+    "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+    "penetration-testing-process.md",
+    ".gitbook/assets/Untitled 1.png",
+    ".gitbook/assets/Untitled 4.png",
+    ".gitbook/assets/Untitled 3.png",
+    ".gitbook/assets/Untitled 2.png",
+    ".gitbook/assets/Untitled 1 1.png",
+    ".gitbook/assets/PivotingandTunnelingVisualized.gif",
+    "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310",
+    "pivoting-tunneling-and-port-forwarding.md",
+    "pivoting-tunneling-and-port-forwarding-73f7c5471d9b4cefb900fbfb23e82310.md",
+    ".git/ORIG_HEAD",
+    ".git/objects/d6/25fac5e04e70f562c1b0034286998df646a8a2",
+    ".git/objects/d6",
+    ".git/objects/5a/9ba46374ea66d8d3e096947698530fb9560a7f",
+    ".gitbook/assets/PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310/PivotingandTunnelingVisualized.gif",
+    ".gitbook/assets/Untitled (9).png"
+  ]
+}
