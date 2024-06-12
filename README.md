@@ -1,8 +1,8 @@
 # oscp-cpts-notes
 
 <div style="display: flex;">
-    <img src=".gitbook/assets/312krCbLBwwnMN1uaOXohoEjSE6Fb8ljaXi7B4zL.webp" style="width: 50%;"/>
-    <img src=".gitbook/assets/image.png" style="width: 50%;"/>
+    <img src=".gitbook/assets/312krCbLBwwnMN1uaOXohoEjSE6Fb8ljaXi7B4zL.webp" style="width: 25%;"/>
+    <img src=".gitbook/assets/image.png" style="width: 25%;"/>
 </div>
 Notes for OSCP & HTB CPTS
 
