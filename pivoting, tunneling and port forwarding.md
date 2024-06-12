@@ -1,6 +1,6 @@
 # PIVOTING, TUNNELING, AND PORT FORWARDING
 
-![PivotingandTunnelingVisualized.gif](PivotingandTunnelingVisualized.gif)
+![PivotingandTunnelingVisualized.gif](.gitbook/assets/PivotingandTunnelingVisualized.gif)
 
 # Introduction
 
