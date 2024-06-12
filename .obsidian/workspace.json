@@ -13,9 +13,23 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+                "file": "pivoting, tunneling and port forwarding.md",
                 "mode": "source",
                 "source": false
+              }
+            }
+          },
+          {
+            "id": "1a4cdee3469b7cf0",
+            "type": "leaf",
+            "state": {
+              "type": "show-hidden-files:documentation",
+              "state": {
+                "show-hidden-files:documentation": {
+                  "data": "# Show Hidden Files for Obsidian [![release](https://img.shields.io/github/v/release/polyipseity/obsidian-show-hidden-files)][latest release] [![Obsidian downloads](https://img.shields.io/badge/dynamic/json?logo=Obsidian&color=%238b6cef&label=downloads&query=$[\"show-hidden-files\"].downloads&url=https://raw.githubusercontent.com/obsidianmd/obsidian-releases/master/community-plugin-stats.json)][community plugin]\n\n[Buy Me a Coffee]: https://buymeacoffee.com/polyipseity\n[Buy Me a Coffee/embed]: https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=polyipseity&button_colour=40DCA5&font_colour=ffffff&font_family=Lato&outline_colour=000000&coffee_colour=FFDD00\n[Obsidian]: https://obsidian.md/\n[changelog]: https://github.com/polyipseity/obsidian-show-hidden-files/blob/main/CHANGELOG.md\n[community plugin]: https://obsidian.md/plugins?id=show-hidden-files\n[latest release]: https://github.com/polyipseity/obsidian-show-hidden-files/releases/latest\n[other things]: https://github.com/polyipseity/obsidian-monorepo\n[plugin library]: https://github.com/polyipseity/obsidian-plugin-library\n[repository]: https://github.com/polyipseity/obsidian-show-hidden-files\n[trailer]: https://raw.githubusercontent.com/polyipseity/obsidian-show-hidden-files/main/assets/trailer.png\n\nShow hidden files, like dotfiles, in [Obsidian].\n\n[![Buy Me a Coffee/embed]][Buy Me a Coffee]\n\n__[Repository] · [Changelog] · [Community plugin] · [Other things] · [Features](#features) · [Installation](#installation) · [Usage](#usage) · [Contributing](#contributing) · [Security](#security)__\n\n![Trailer]\n\nFor first time users, read the [installation](#installation) section first!\n\nThis file is automatically opened on first install. You can reopen it in settings or command palette.\n\n## Features\n\n- Show files that are forcefully hidden in vanilla Obsidian.\n- Toggle visibility of hidden files.\n- Interact with hidden files normally like normal files.\n\n## Installation\n\n1. Install plugin.\n    - ~~Community plugins~~\n        1. ~~Install the [plugin][community plugin] from community plugins directly.~~\n    - Manual\n        1. Create directory `show-hidden-files` under `.obsidian/plugins` of your vault.\n        2. Place `manifest.json`, `main.js`, and `styles.css` from the [latest release] into the directory.\n    - Building (latest)\n        1. Clone this repository, including its submodules.\n        2. Install [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).\n        3. Run `npm install` in the root directory.\n        4. Run `npm run obsidian:install <vault directory>` in the root directory.\n    - [Obsidian42 - BRAT](https://obsidian.md/plugins?id=obsidian42-brat) (latest)\n        - See [their readme](https://github.com/TfTHacker/obsidian42-brat#readme).\n2. Enable plugin.\n3. (optional) Configure plugin settings.\n\n## Usage\n\n- Enable the plugin.\n- Please also enable `Files & links > Detect all file extensions` to work properly.\n- Note that other plugins will treat visible hidden files as normal files. This may cause issues such as treating plugin JavaScript files as user scripts. To resolve such issues, exclude those hidden files in the other plugins' settings or hide those hidden files in this plugin's settings.\n\n## Contributing\n\nContributions are welcome!\n\nThis project uses [`changesets`](https://github.com/changesets/changesets) to manage the changelog. When creating a pull request, please [add a changeset](https://github.com/changesets/changesets/blob/main/docs/intro-to-using-changesets.md#adding-changesets) describing the changes. Add multiple changesets if your pull request changes several things. End each changeset with `([PR number](PR link) by [author username](author link))`. For example, the newly created file under the directory `.changeset` should look like:\n\n```Markdown\n---\n\"example\": patch\n---\n\nThis is an example change. ([GH#1](https://github.com/ghost/example/pull/1) by [@ghost](https://github.com/ghost))\n```\n\n### Todos\n\nThe todos here, ordered alphabetically, are things planned for the plugin. There are no guarantees that they will be completed. However, we are likely to accept contributions for them.\n\n- (none)\n\n### Translating\n\nTranslation files are under [`assets/locales/`](assets/locales/). Each locale has its own directory named with its corresponding __[IETF language tag](https://wikipedia.org/wiki/IETF_language_tag)__. Some translation keys are missing here and instead located at [`obsidian-plugin-library`][plugin library].\n\nTo contribute translation for an existing locale, modify the files in the corresponding directory.\n\nFor a new locale, create a new directory named with its language tag and copy [`assets/locales/en/translation.json`](assets/locales/en/translation.json) into it. Then, add an entry to [`assets/locales/en/language.json`](assets/locales/en/language.json) in this format:\n\n```JSONc\n{\n    // ...\n    \"en\": \"English\",\n    \"(your-language-tag)\": \"(Native name of your language)\",\n    \"uwu\": \"Uwuish\",\n    // ...\n}\n```\n\nSort the list of languages by the alphabetical order of their language tags. Then modify the files in the new directory. There will be errors in [`assets/locales.ts`](assets/locales.ts), which you can ignore and we will fix them for you. You are welcome to fix them yourself if you know TypeScript.\n\nWhen translating, keep in mind the following things:\n\n- Do not translate anything between `{{` and `}}` (`{{example}}`). They are __interpolations__ and will be replaced by localized strings at runtime.\n- Do not translate anything between `$t(` and `)` (`$t(example)`). They refer to other localized strings. To find the localized string being referred to, follow the path of the key, which is separated by dots (`.`). For example, the key [`youtu.be./dQw4w9WgXcQ`](https://youtu.be./dQw4w9WgXcQ) refers to:\n\n```JSONc\n{\n    // ...\n    \"youtu\": {\n        // ...\n        \"be\": {\n            // ...\n            \"/dQw4w9WgXcQ\": \"I am 'youtu.be./dQw4w9WgXcQ'!\",\n            // ...\n        },\n        // ...\n    },\n    // ...\n}\n```\n\n- The keys under `generic` are vocabularies. They can be referred in translation strings by `$t(generic.key)`. Refer to them as much as possible to standardize translations for vocabularies that appear in different places.\n- It is okay to move interpolations and references to other localized strings around to make the translation natural. It is also okay to not use some references used in the original translation. However, it is NOT okay to not use all interpolations.\n\n## Security\n\nWe hope that there will never be any security vulnerabilities, but unfortunately it does happen. Please [report](#reporting-a-vulnerability) them!\n\n### Supported versions\n\n| Version | Supported |\n|-|-|\n| latest | ✅ |\n| outdated | ❌ |\n\n### Reporting a vulnerability\n\nPlease report a vulerability by opening an new issue. We will get back to you as soon as possible.\n",
+                  "displayTextI18nKey": "translation:generic.documentations.readme",
+                  "iconI18nKey": "asset:generic.documentations.readme-icon"
+                }
               }
             }
           }
@@ -85,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+                "file": "pivoting, tunneling and port forwarding.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
+                "file": "pivoting, tunneling and port forwarding.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md"
+                "file": "pivoting, tunneling and port forwarding.md"
               }
             }
           }
@@ -146,32 +160,33 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "efef18d6d003dd01",
+  "active": "1371a45bfd8144a5",
   "lastOpenFiles": [
     ".git/index.lock",
-    ".git/objects/9d/e401af8a6656657566d853c25abaec0da1face",
-    ".git/objects/5b/53b75c5fb9395d8cffe5b015d1ae265f7d74a2",
-    ".git/objects/5b",
-    ".git/objects/85/3cbce6341dfa05a878d2cf684c72c6bb00222f",
-    ".git/objects/85",
-    ".git/objects/7c/36e7af173a342aadd7d8ea914978aef3bee627",
-    ".git/objects/79/e0f22c01215d1129049bddbebf5e156c5510eb",
-    ".git/objects/79",
-    ".git/objects/40/2adb5e58653ca44106dbf8363c93d988501afb",
-    ".git/objects/41/97a48d48b54c416bbcb9856083b4aac34c8b31",
-    ".gitbook/assets/analyzingTheTraffic.gif",
+    ".git/logs/refs/remotes/origin/HEAD",
+    ".git/logs/refs/remotes/origin/main",
+    ".git/refs/remotes/origin/main",
+    ".git/refs/remotes/origin/HEAD",
+    ".git/logs/refs/remotes/origin",
+    ".git/logs/refs/heads/main",
+    ".obsidian/plugins/show-hidden-files/main.js",
+    ".git/refs/remotes/origin",
+    ".obsidian/plugins/show-hidden-files/styles.css",
+    ".obsidian/plugins/show-hidden-files/manifest.json",
+    ".gitbook/assets/Untitled.png",
+    ".gitbook/assets/Untitled 2.png",
+    ".gitbook/assets/Untitled (7).png",
+    ".gitbook/assets/Untitled 4.png",
+    ".gitbook/assets/Untitled 1 1.png",
     ".gitbook/assets/Untitled 5.png",
+    ".gitbook/assets/Untitled (2).png",
+    ".gitbook/assets/Untitled 1.png",
+    ".gitbook/assets/Untitled (9).png",
+    ".gitbook/assets/Untitled 3.png",
+    "shells-and-payloads.md",
     "PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310.md",
     "penetration-testing-process.md",
-    ".gitbook/assets/Untitled 1.png",
-    ".gitbook/assets/Untitled 4.png",
-    ".gitbook/assets/Untitled 3.png",
-    ".gitbook/assets/Untitled 2.png",
-    ".gitbook/assets/Untitled 1 1.png",
-    ".gitbook/assets/PivotingandTunnelingVisualized.gif",
     "pivoting-tunneling-and-port-forwarding.md",
-    "pivoting-tunneling-and-port-forwarding-73f7c5471d9b4cefb900fbfb23e82310.md",
-    ".gitbook/assets/PIVOTING, TUNNELING, AND PORT FORWARDING 73f7c5471d9b4cefb900fbfb23e82310/PivotingandTunnelingVisualized.gif",
-    ".gitbook/assets/Untitled (9).png"
+    "pivoting-tunneling-and-port-forwarding-73f7c5471d9b4cefb900fbfb23e82310.md"
   ]
 }
