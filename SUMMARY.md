@@ -9,5 +9,4 @@
 * [Metasploit Framework](metasploit-framework.md)
 * [Password Attacks](password-attacks.md)
 * [Attacking Common Services](attacking-common-services.md)
-* [Page 1](page-1.md)
-* [Pivoting, Tunneling and Port Forwarding](pivoting%2C%20tunneling%20and%20port%20forwarding.md)
+* [Pivoting, Tunneling and Port Forwarding](<pivoting, tunneling and port forwarding.md>)
