@@ -10,4 +10,4 @@
 * [Password Attacks](password-attacks.md)
 * [Attacking Common Services](attacking-common-services.md)
 * [Page 1](page-1.md)
-* [Pivoting, Tunneling and Port Forwarding](PIVOTING%2C%20TUNNELING%2C%20AND%20PORT%20FORWARDING%2073f7c5471d9b4cefb900fbfb23e82310.md)
+* [Pivoting, Tunneling and Port Forwarding](pivoting%2C%20tunneling%20and%20port%20forwarding.md)
