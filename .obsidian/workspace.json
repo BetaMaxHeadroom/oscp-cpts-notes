@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ACTIVE DIRECTORY Enum & Attacks.md",
+                "file": "Active Directory Enumeration and Attacks.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ACTIVE DIRECTORY Enum & Attacks.md",
+                "file": "Active Directory Enumeration and Attacks.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ACTIVE DIRECTORY Enum & Attacks.md",
+                "file": "Active Directory Enumeration and Attacks.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ACTIVE DIRECTORY Enum & Attacks.md"
+                "file": "Active Directory Enumeration and Attacks.md"
               }
             }
           }
@@ -146,10 +146,22 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "efef18d6d003dd01",
+  "active": "1a4cdee3469b7cf0",
   "lastOpenFiles": [
+    ".git/index.lock",
+    "SUMMARY.md",
     "pivoting, tunneling and port forwarding.md",
-    "ACTIVE DIRECTORY Enum & Attacks.md",
+    "attacking-common-services.md",
+    "Active Directory Enumeration and Attacks.md",
+    ".git/objects/42/fcc0a20d39e2037099c3a677bab6dccb08071d",
+    ".git/objects/42",
+    ".git/objects/76/834b41463f7ba2f56b867dacee8bf0bf09fcee",
+    ".git/objects/76",
+    ".git/objects/b3/a5570d08fe3697323a112a214ef84bca6c861c",
+    ".git/objects/b3",
+    ".git/objects/91/8e3d54e7552fd24f7dbc4ae83949f194f3d5ad",
+    ".git/objects/91",
+    ".git/objects/41/30b783328162a26b3c1d68d67ee9ce0c927602",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 9.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 8.png",
@@ -160,16 +172,6 @@
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 3.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 2.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 17.png",
-    ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505",
-    ".git/objects/16/cb23b95ebd1815c5a295121c0bf4947a6da053",
-    ".git/objects/16",
-    ".git/objects/1f/9b623c16b35ca3e4acd0323904f6039d73c720",
-    ".git/objects/1f",
-    ".git/objects/7f/fdd5e283d8bc0c5689afe76bad655f561bcc5e",
-    ".git/index.lock",
-    ".git/objects/44/4c2cea6944edcad7c166592935bebc0d2e3fc9",
-    ".git/objects/44",
-    ".git/objects/2f/17c276797242f6792e327af14ffdcead2bdc2a",
     "shells-and-payloads.md",
     "penetration-testing-process.md",
     "pivoting-tunneling-and-port-forwarding.md",
