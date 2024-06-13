@@ -10,3 +10,4 @@
 * [Password Attacks](password-attacks.md)
 * [Attacking Common Services](attacking-common-services.md)
 * [Pivoting, Tunneling and Port Forwarding](<pivoting, tunneling and port forwarding.md>)
+* [Active Directory Enumeration and Attacks](Active%20Directory%20Enumeration%20and%20Attacks.md)
