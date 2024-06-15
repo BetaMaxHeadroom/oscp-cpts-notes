@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SUMMARY.md",
+                "file": "Footprinting.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "SUMMARY.md",
+                "file": "Footprinting.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "SUMMARY.md",
+                "file": "Footprinting.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "SUMMARY.md"
+                "file": "Footprinting.md"
               }
             }
           }
@@ -146,24 +146,28 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "efef18d6d003dd01",
+  "active": "1a4cdee3469b7cf0",
   "lastOpenFiles": [
+    "SUMMARY.md",
+    "Footprinting.md",
+    ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c/Untitled.png",
+    ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c/Untitled 2.png",
+    ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c/Untitled 1.png",
+    ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c",
+    ".git/objects/55/48b6deef034c0d962f5cea55f9bb247b91b4de",
+    ".git/objects/da/d3f0b64cfbaf526fdcc3a5755237f1db7b560d",
+    ".git/objects/da",
+    ".git/objects/8c/8ea3e3d6d1fdb1950a3e201c1f1236eec652d3",
+    ".git/objects/8c",
     ".git/index.lock",
+    ".git/objects/a2/b217d0dc00ec9b51e325c6b297191b14e1bf44",
+    ".git/objects/a2",
+    ".git/objects/e8/c4566939de0f8b413ebd428ccf5500b0ff92a8",
     "Network Enum with Nmap.md",
     "Network Enum with Nmap 14cff2712e3b49369bd25cac97aa25a7.md",
-    ".git/objects/3c/1eaeb7a1a867d2e850784fce87570eddd13973",
-    ".git/objects/3c",
-    ".git/objects/91/6b511b5db137b99f0f8851c7145cd817200bce",
-    ".git/objects/af/f2ee620cfe6fa3bcab85fd41278676a71bc63d",
-    ".git/objects/f1/27028d2c72a74886331e3d6de6de480ecca116",
-    ".git/objects/0f/f498bebaf6a4393fcac56c4fe0613a245ad47e",
-    ".git/objects/0f",
     "Getting Started.md",
     "Getting Started 5b0e99054bf04a8b9a371a2558d85624.md",
-    ".git/objects/6a/da7c29df4ba338e4653628e3f1733ac799f064",
-    ".git/objects/57/dc97b37f4878bb3984b4c83de3af7e9df7f7cf",
     "Active Directory Enumeration and Attacks.md",
-    "SUMMARY.md",
     "pivoting, tunneling and port forwarding.md",
     "attacking-common-services.md",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled.png",
@@ -173,9 +177,6 @@
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 6.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 5.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 4.png",
-    ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 3.png",
-    ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 2.png",
-    ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 17.png",
     "shells-and-payloads.md",
     "penetration-testing-process.md",
     "pivoting-tunneling-and-port-forwarding.md",
