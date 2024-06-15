@@ -11,3 +11,6 @@
 * [Attacking Common Services](attacking-common-services.md)
 * [Pivoting, Tunneling and Port Forwarding](<pivoting, tunneling and port forwarding.md>)
 * [Active Directory Enumeration and Attacks](Active%20Directory%20Enumeration%20and%20Attacks.md)
+* [Footprinting](Footprinting.md)
+* [Getting Started](Getting%20Started.md)
+* [Network Enumeration with Nmap](Network%20Enum%20with%20Nmap.md)
