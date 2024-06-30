@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Linux Privilege Escalation.md",
+                "file": "SUMMARY.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Linux Privilege Escalation.md",
+                "file": "SUMMARY.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Linux Privilege Escalation.md",
+                "file": "SUMMARY.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Linux Privilege Escalation.md"
+                "file": "SUMMARY.md"
               }
             }
           }
@@ -146,10 +146,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "efef18d6d003dd01",
+  "active": "1a4cdee3469b7cf0",
   "lastOpenFiles": [
-    "Footprinting.md",
     "Linux Privilege Escalation.md",
+    "Footprinting.md",
     ".gitbook/assets/Linux Privilege Escalation 590d05b435dd41758764005e70d8f8fd/Untitled 1.png",
     ".gitbook/assets/Linux Privilege Escalation 590d05b435dd41758764005e70d8f8fd/Untitled.png",
     ".gitbook/assets/Linux Privilege Escalation 590d05b435dd41758764005e70d8f8fd",

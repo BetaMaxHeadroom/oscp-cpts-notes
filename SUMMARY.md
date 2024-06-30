@@ -12,3 +12,4 @@
 * [Attacking Common Services](attacking-common-services.md)
 * [Pivoting, Tunneling and Port Forwarding](<pivoting, tunneling and port forwarding.md>)
 * [Active Directory Enumeration and Attacks](<Active Directory Enumeration and Attacks.md>)
+* [Linux Privilege Escalation](Linux%20Privilege%20Escalation.md)
