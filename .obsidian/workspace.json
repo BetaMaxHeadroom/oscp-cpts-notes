@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Footprinting.md",
+                "file": "Linux Privilege Escalation.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Footprinting.md",
+                "file": "Linux Privilege Escalation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Footprinting.md",
+                "file": "Linux Privilege Escalation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Footprinting.md"
+                "file": "Linux Privilege Escalation.md"
               }
             }
           }
@@ -146,10 +146,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1a4cdee3469b7cf0",
+  "active": "efef18d6d003dd01",
   "lastOpenFiles": [
-    "SUMMARY.md",
     "Footprinting.md",
+    "Linux Privilege Escalation.md",
+    ".gitbook/assets/Linux Privilege Escalation 590d05b435dd41758764005e70d8f8fd/Untitled 1.png",
+    ".gitbook/assets/Linux Privilege Escalation 590d05b435dd41758764005e70d8f8fd/Untitled.png",
+    ".gitbook/assets/Linux Privilege Escalation 590d05b435dd41758764005e70d8f8fd",
+    "SUMMARY.md",
     ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c/Untitled.png",
     ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c/Untitled 2.png",
     ".gitbook/assets/Footprinting 3286871dc7e44f489db1ce6c4e0f296c/Untitled 1.png",
@@ -162,7 +166,6 @@
     ".git/index.lock",
     ".git/objects/a2/b217d0dc00ec9b51e325c6b297191b14e1bf44",
     ".git/objects/a2",
-    ".git/objects/e8/c4566939de0f8b413ebd428ccf5500b0ff92a8",
     "Network Enum with Nmap.md",
     "Network Enum with Nmap 14cff2712e3b49369bd25cac97aa25a7.md",
     "Getting Started.md",
@@ -175,8 +178,6 @@
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 8.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 7.png",
     ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 6.png",
-    ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 5.png",
-    ".gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 4.png",
     "shells-and-payloads.md",
     "penetration-testing-process.md",
     "pivoting-tunneling-and-port-forwarding.md",
