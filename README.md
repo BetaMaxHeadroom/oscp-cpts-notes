@@ -16,5 +16,5 @@ _**Instagram**_ [_dollarboysushil_](https://instagram.com/dollarboysushil)\
 _**Twitter (X)**_ [_dollarboysushil_](https://twitter.com/dollarboysushil)\
 _**Youtube**_ [_dollarboysushil_](https://youtube.com/dollarboysushil)\
 _**Linkedin**_ [_dollarboysushil_](https://www.linkedin.com/in/dollarboysushil/)\
-_**Discord**_ [_https://discord.gg/5jpkdeV_](https://discord.gg/5jpkdeV)
+_**Discord**_ [_https://discord.gg/5jpkdeV_](https://discord.gg/5jpkdeV)\
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdollarboysushil%2Foscp-cpts-notes&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
