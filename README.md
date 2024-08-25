@@ -1,8 +1,3 @@
----
-cover: .gitbook/assets/image (1).png
-coverY: 0
----
-
 # oscp-cpts-notes
 
 ![](.gitbook/assets/312krCbLBwwnMN1uaOXohoEjSE6Fb8ljaXi7B4zL.webp) ![](.gitbook/assets/image.png)
