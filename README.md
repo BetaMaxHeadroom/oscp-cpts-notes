@@ -1,9 +1,12 @@
+---
+cover: .gitbook/assets/image (1).png
+coverY: 0
+---
+
 # oscp-cpts-notes
 
-<div style="display: flex;">
-    <img src=".gitbook/assets/312krCbLBwwnMN1uaOXohoEjSE6Fb8ljaXi7B4zL.webp" style="width: 25%;"/>
-    <img src=".gitbook/assets/image.png" style="width: 25%;"/>
-</div>
+![](.gitbook/assets/312krCbLBwwnMN1uaOXohoEjSE6Fb8ljaXi7B4zL.webp) ![](.gitbook/assets/image.png)
+
 Notes for OSCP & HTB CPTS
 
 ## Enhance your reading experience with my GitBook [https://notes.sushilpoudel.com.np/](https://notes.sushilpoudel.com.np/)
@@ -17,4 +20,4 @@ _**Twitter (X)**_ [_dollarboysushil_](https://twitter.com/dollarboysushil)\
 _**Youtube**_ [_dollarboysushil_](https://youtube.com/dollarboysushil)\
 _**Linkedin**_ [_dollarboysushil_](https://www.linkedin.com/in/dollarboysushil/)\
 _**Discord**_ [_https://discord.gg/5jpkdeV_](https://discord.gg/5jpkdeV)\
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdollarboysushil%2Foscp-cpts-notes&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdollarboysushil%2Foscp-cpts-notes\&count\_bg=%2379C83D\&title\_bg=%23555555\&icon=\&icon\_color=%23E7E7E7\&title=hits\&edge\_flat=false)](https://hits.seeyoufarm.com)
