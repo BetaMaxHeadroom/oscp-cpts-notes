@@ -4,7 +4,7 @@
 
 Notes for OSCP & HTB CPTS
 
-## Enhance your reading experience with my GitBook [https://notes.dollarboysushil.com/](https://notes.sushilpoudel.com.np/)
+## Enhance your reading experience with my GitBook [https://notes.dollarboysushil.com/](https://notes.dollarboysushil.com/)
 
 ### Solution of the Questions and Skill Assessment are not published due to HTB Terms and Condition <a href="#solution-of-the-questions-and-skill-assessment-are-not-published-due-to-htb-terms-and-condition" id="solution-of-the-questions-and-skill-assessment-are-not-published-due-to-htb-terms-and-condition"></a>
 
