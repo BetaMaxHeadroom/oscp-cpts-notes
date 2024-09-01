@@ -30,7 +30,7 @@ Major  Minor  Build  Revision
 
 Current build version of windows is `14393`
 
-<figure><img src="../.gitbook/assets/Untitled (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Untitled (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 looking at the github we can see technique number 54 matches.
 

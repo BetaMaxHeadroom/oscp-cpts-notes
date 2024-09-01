@@ -1,0 +1,38 @@
+# Initial Enumeration
+
+### **External Recon and Enumeration Principles**
+
+* [https://bgp.he.net/](https://bgp.he.net/) for **Finding Address Spaces**
+* [https://whois.domaintools.com/](https://whois.domaintools.com/)
+* [https://viewdns.info/](https://viewdns.info/)
+
+### **Initial Enumeration of the Domain**
+
+#### **Key Data Points**
+
+| **Data Point**                  | **Description**                                                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `AD Users`                      | We are trying to enumerate valid user accounts we can target for password spraying.                                             |
+| `AD Joined Computers`           | Key Computers include Domain Controllers, file servers, SQL servers, web servers, Exchange mail servers, database servers, etc. |
+| `Key Services`                  | Kerberos, NetBIOS, LDAP, DNS                                                                                                    |
+| `Vulnerable Hosts and Services` | Anything that can be a quick win. ( a.k.a an easy host to exploit and gain a foothold)                                          |
+
+* Running wireshark or tcp dump to see what hosts and types of network traffic we can capture. we can look for `arp` and `mdns` or other layer 2 packets.
+* Then using Responder tool to analyze network traffic and determine if anything else in the domain pops up. `sudo responder -I ens224 -A`
+* [https://fping.org/](https://fping.org/) ICMP sweep of the subnet using `fping`.
+
+| **Command**                                                                                         | **Description**                                                                                                                                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nslookup ns1.inlanefreight.com`                                                                    | Used to query the domain name system and discover the IP address to domain name mapping of the target entered from a Linux-based host.                                                                                                                                                          |
+| `sudo tcpdump -i ens224`                                                                            | Used to start capturing network packets on the network interface proceeding the `-i` option a Linux-based host.                                                                                                                                                                                 |
+| `sudo responder -I ens224 -A`                                                                       | Used to start responding to & analyzing `LLMNR`, `NBT-NS` and `MDNS` queries on the interface specified proceeding the `-I` option and operating in `Passive Analysis` mode which is activated using `-A`. Performed from a Linux-based host                                                    |
+| `fping -asgq 172.16.5.0/23`                                                                         | Performs a ping sweep on the specified network segment from a Linux-based host.                                                                                                                                                                                                                 |
+|                                                                                                     | `a` to show targets that are alive, `s` to print stats at the end of the scan, `g` to generate a target list from the CIDR network, and `q` to not show per-target results.                                                                                                                     |
+|                                                                                                     |                                                                                                                                                                                                                                                                                                 |
+| `sudo nmap -v -A -iL hosts.txt -oN /home/User/Documents/host-enum`                                  | Performs an nmap scan that with OS detection, version detection, script scanning, and traceroute enabled (`-A`) based on a list of hosts (`hosts.txt`) specified in the file proceeding `-iL`. Then outputs the scan results to the file specified after the `-oN`option.                       |
+| `sudo git clone <https://github.com/ropnop/kerbrute.git`>                                           | Uses `git` to clone the kerbrute tool from a Linux-based host.                                                                                                                                                                                                                                  |
+| `make help`                                                                                         | Used to list compiling options that are possible with `make` from a Linux-based host.                                                                                                                                                                                                           |
+| `sudo make all`                                                                                     | Used to compile a `Kerbrute` binary for multiple OS platforms and CPU architectures.                                                                                                                                                                                                            |
+| `./kerbrute_linux_amd64`                                                                            | Used to test the chosen complied `Kebrute` binary from a Linux-based host.                                                                                                                                                                                                                      |
+| `sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute`                                              | Used to move the `Kerbrute` binary to a directory can be set to be in a Linux user's path. Making it easier to use the tool.                                                                                                                                                                    |
+| `./kerbrute_linux_amd64 userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o kerb-results` | Runs the Kerbrute tool to discover usernames in the domain (`INLANEFREIGHT.LOCAL`) specified proceeding the `-d` option and the associated domain controller specified proceeding `--dc`using a wordlist and outputs (`-o`) the results to a specified file. Performed from a Linux-based host. |

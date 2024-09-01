@@ -68,81 +68,7 @@ AD method
 | https://github.com/Group3r/Group3r                                                                                  | Group3r is useful for auditing and finding security misconfigurations in AD Group Policy Objects (GPO).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | https://github.com/adrecon/ADRecon                                                                                  | A tool used to extract various data from a target AD environment. The data can be output in Microsoft Excel format with summary views and analysis to assist with analysis and paint a picture of the environment's overall security state.                                                                                                                                                                                                                                                                                                                                                             |
 
-## **Initial Enumeration**
 
-### **External Recon and Enumeration Principles**
-
-* [https://bgp.he.net/](https://bgp.he.net/) for **Finding Address Spaces**
-* [https://whois.domaintools.com/](https://whois.domaintools.com/)
-* [https://viewdns.info/](https://viewdns.info/)
-
-### **Initial Enumeration of the Domain**
-
-* Running wireshark or tcp dump to see what hosts and types of network traffic we can capture. we can look for `arp` and `mdns` or other layer 2 packets.
-* Then using Responder tool to analyze network traffic and determine if anything else in the domain pops up. `sudo responder -I ens224 -A`
-* [https://fping.org/](https://fping.org/) ICMP sweep of the subnet using `fping`.
-
-| Command                                                                                             | Description                                                                                                                                                                                                                                                                                         |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| nslookup ns1.inlanefreight.com                                                                      | Used to query the domain name system and discover the IP address to domain name mapping of the target entered from a Linux-based host.                                                                                                                                                              |
-| sudo tcpdump -i ens224                                                                              | Used to start capturing network packets on the network interface proceeding the -i option a Linux-based host.                                                                                                                                                                                       |
-| sudo responder -I ens224 -A                                                                         | Used to start responding to & analyzing LLMNR, NBT-NS and MDNS queries on the interface specified proceeding the -I option and operating in Passive Analysis mode which is activated using -A. Performed from a Linux-based host                                                                    |
-| fping -asgq 172.16.5.0/23                                                                           | Performs a ping sweep on the specified network segment from a Linux-based host.                                                                                                                                                                                                                     |
-| sudo nmap -v -A -iL hosts.txt -oN /home/User/Documents/host-enum                                    | Performs an nmap scan that with OS detection, version detection, script scanning, and traceroute enabled (-A) based on a list of hosts (hosts.txt) specified in the file proceeding -iL. Then outputs the scan results to the file specified after the -oNoption. Performed from a Linux-based host |
-| sudo git clone https://github.com/ropnop/kerbrute.git                                               | Uses git to clone the kerbrute tool from a Linux-based host.                                                                                                                                                                                                                                        |
-| make help                                                                                           | Used to list compiling options that are possible with make from a Linux-based host.                                                                                                                                                                                                                 |
-| sudo make all                                                                                       | Used to compile a Kerbrute binary for multiple OS platforms and CPU architectures.                                                                                                                                                                                                                  |
-| ./kerbrute\_linux\_amd64                                                                            | Used to test the chosen complied Kebrute binary from a Linux-based host.                                                                                                                                                                                                                            |
-| sudo mv kerbrute\_linux\_amd64 /usr/local/bin/kerbrute                                              | Used to move the Kerbrute binary to a directory can be set to be in a Linux user's path. Making it easier to use the tool.                                                                                                                                                                          |
-| ./kerbrute\_linux\_amd64 userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o kerb-results | Runs the Kerbrute tool to discover usernames in the domain (INLANEFREIGHT.LOCAL) specified proceeding the -d option and the associated domain controller specified proceeding --dcusing a wordlist and outputs (-o) the results to a specified file. Performed from a Linux-based host.             |
-
-## **Sniffing out a Foothold**
-
-### LLMNR/NBT-NS Poisoning From Linux
-
-`LLMNR` is a protocol used to identify hosts when DNS fails to do so. Previously known as `NBT-NS`
-
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled.png>)
-
-in last step when victim connects to us it sends us its `username` and `NTLM` hash. Which we will intercept using responder.
-
-In short
-
-1. A host attempts to connect to the print server at \print01.inlanefreight.local, but accidentally types in \printer01.inlanefreight.local.
-2. The DNS server responds, stating that this host is unknown.
-3. The host then broadcasts out to the entire local network asking if anyone knows the location of \printer01.inlanefreight.local.
-4. The attacker (us with `Responder` running) responds to the host stating that it is the \printer01.inlanefreight.local that the host is looking for.
-5. The host believes this reply and sends an authentication request to the attacker with a username and NTLMv2 password hash.
-6. This hash can then be cracked offline or used in an SMB Relay attack if the right conditions exist.
-
-RUN RESPONDER
-
-*   `sudo responder -I {interface}` → run responder
-
-    ![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 1.png>)
-
-    Responder will capture hash
-
-    copy the whole hash and crack the hash if possible.
-
-    ## In windows we will use [Inveigh](https://github.com/Kevin-Robertson/Inveigh)
-
-    If we end up with a Windows host as our attack box, our client provides us with a Windows box to test from, or we land on a Windows host as a local admin via another attack method and would like to look to further our access, the tool [Inveigh](https://github.com/Kevin-Robertson/Inveigh) works similar to Responder, but is written in PowerShell and C#.
-* `PS C:\htb> Import-Module .\Inveigh.ps1` → importing module.
-*   `Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y` → starting inveigh with llmnr and NBNS spoofing and output to the console and write to a file.
-
-    ### **`C# Inveigh (InveighZero)`**
-
-    Powershell version is no longer updated, C# version is maintained update by the authors.
-*   `PS C:\htb> .\Inveigh.exe` → run the c# version, which will start capturing the hash.
-
-    We can hit the `esc` key to enter the console while Inveigh is running.
-
-    After typing `HELP` and hitting enter, we are presented with several options:
-
-    We can quickly view unique captured hashes by typing `GET NTLMV2UNIQUE`.
-
-    We can type in `GET NTLMV2USERNAMES` and see which usernames we have collected.
 
 ## **Sighting In, Hunting For A User**
 
@@ -800,7 +726,7 @@ ACL are list that defines
 
 The settings themselves in an ACL are called `Access Control Entries` (`ACEs`)
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 3.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 3.png>)
 
 ## **ACL Enumeration**
 
@@ -864,23 +790,23 @@ Import the file from ingestor
 
 in search box, search for the user we have control `wley` in this case.
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 4.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 4.png>)
 
 In Node info tab, we can use the `Outbound Object Control section`
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 5.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 5.png>)
 
 we can see `wley` has `force change password` over the user `damundsen` user
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 6.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 6.png>)
 
 we can then right click on the line, which gives us help option
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 7.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 7.png>)
 
 which shows help around abusing this ACE
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 8.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 8.png>)
 
 we can get whole attack path from `Transitive Object Control` Section
 
@@ -888,7 +814,7 @@ we can get whole attack path from `Transitive Object Control` Section
 
 From previous Section, we will continue to do attack
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 9.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 9.png>)
 
 * First we will use user `wley` to change password of `damundsen`
 * then using `damundsen` we will use `Generic Write` right to add user we control to `Help Desk Level 1` group
@@ -1058,7 +984,7 @@ Supplemental Credentials:
 
 In bloodhound, for a specific user (whose foothold we have) check for what type of remote access rights they have either directly or inherited via group membership under `Execution Rights` on the `Node Info` tab.
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 10.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 10.png>)
 
 We can see wley is member of domain user and can rdp into academy…
 
@@ -1070,7 +996,7 @@ We can use this cypher query in bloodhound to hunt for users with Remote Managem
 
 * `MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) RETURN p2`
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 11.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 11.png>)
 
 We can establish Winrm session from windows as
 
@@ -1095,7 +1021,7 @@ Cypher query to hunt for users with SQLAdmin rights
 
 * `MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:SQLAdmin*1..]->(c:Computer) RETURN p2`
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 12.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 12.png>)
 
 #### **Enumerating MSSQL Instances with PowerUpSQL**
 
@@ -1135,7 +1061,7 @@ then we can run os command using
 
 ## **Kerberos "Double Hop" Problem**
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 13.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 13.png>)
 
 The Kerberos "double hop" problem arises in scenarios where authentication is required across multiple servers or services. For example, when a user logs into Server A and then Server A needs to access Server B on behalf of the user, traditional Kerberos authentication fails because the user's credentials cannot be passed from Server A to Server B. This problem is typically encountered in web applications, remote desktop services, and distributed computing environments.
 
@@ -1419,9 +1345,9 @@ First , search for account with Donot\_req\_preauth
 
 A [trust](https://social.technet.microsoft.com/wiki/contents/articles/50969.active-directory-forest-trust-attention-points.aspx) is used to establish forest-forest or domain-domain (intra-domain) authentication, which allows users to access resources in (or perform administrative tasks) another domain, outside of the main domain where their account resides.&#x20;
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 14.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 14.png>)
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 15.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 15.png>)
 
 ## **Enumerating Trust Relationships**
 
@@ -1503,7 +1429,7 @@ WhenChanged     : 2/27/2022 12:02:39 AM
 
 We can also use BloodHound to visualize these trust relationships by using the `Map Domain Trusts` pre-built query. Here we can easily see that two bidirectional trusts exist.
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 16.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 16.png>)
 
 ## **Attacking Domain Trusts - Child -> Parent Trusts - from Windows**
 
@@ -1748,4 +1674,4 @@ Getting the SPNs
 
 #### **Viewing Dangerous Rights through BloodHound**
 
-![Untitled](<.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 17.png>)
+![Untitled](<../.gitbook/assets/ACTIVE DIRECTORY Enum & Attacks 4af4b148af5740d1a6a92a3c741df505/Untitled 17.png>)

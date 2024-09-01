@@ -97,7 +97,7 @@ The pre-engagement stage is where the main commitments, tasks, scope, limitation
 
 ## **Exploitation**
 
-<figure><img src=".gitbook/assets/Untitled (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/Untitled (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### \*\*18. Password Attacks
 
