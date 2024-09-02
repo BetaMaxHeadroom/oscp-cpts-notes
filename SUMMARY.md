@@ -15,6 +15,7 @@
   * [Initial Enumeration](active-directory-enumeration-and-attacks/initial-enumeration.md)
   * [Sniffing out a Foothold](active-directory-enumeration-and-attacks/sniffing-out-a-foothold.md)
   * [Hunting For A User](active-directory-enumeration-and-attacks/hunting-for-a-user.md)
+  * [Spray Responsibly](active-directory-enumeration-and-attacks/spray-responsibly.md)
 * [Linux Privilege Escalation](<Linux Privilege Escalation.md>)
 * [Windows Privilege Escalation](windows-privilege-escalation/README.md)
   * [Getting the Lay of the Land](windows-privilege-escalation/getting-the-lay-of-the-land.md)
