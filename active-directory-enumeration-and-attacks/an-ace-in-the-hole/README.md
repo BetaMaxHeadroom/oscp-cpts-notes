@@ -11,7 +11,7 @@ ACL are list that defines
 
 The settings themselves in an ACL are called `Access Control Entries` (`ACEs`)
 
-<figure><img src="../.gitbook/assets/asdfasdfasfasdfasdfasdfsd.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/asdfasdfasfasdfasdfasdfsd.png" alt=""><figcaption></figcaption></figure>
 
 ## ACL Enumeration
 
@@ -77,22 +77,22 @@ Import the file from ingestor
 
 in search box, search for the user we have control `wley` in this case.
 
-<figure><img src="../.gitbook/assets/lkjlkjlkjlkkl.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/lkjlkjlkjlkkl.png" alt=""><figcaption></figcaption></figure>
 
 In Node info tab, we can use the `Outbound Object Control section`
 
-<figure><img src="../.gitbook/assets/aklsdjf.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/aklsdjf.png" alt=""><figcaption></figcaption></figure>
 
 we can see `wley` has `force change password` over the user `damundsen` user
 
-<figure><img src="../.gitbook/assets/sfdgfd.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/sfdgfd.png" alt=""><figcaption></figcaption></figure>
 
 we can then right click on the line, which gives us help option
 
-<figure><img src="../.gitbook/assets/poipjpphph.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/poipjpphph.png" alt=""><figcaption></figcaption></figure>
 
 which shows help around abusing this ACE
 
-<figure><img src="../.gitbook/assets/hjfghjf.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/hjfghjf.png" alt=""><figcaption></figcaption></figure>
 
 we can get whole attack path from Transitive Object Control Section
